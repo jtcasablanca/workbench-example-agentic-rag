@@ -19,9 +19,11 @@ from langchain_community.vectorstores import Chroma
 from langchain_nvidia_ai_endpoints import NVIDIAEmbeddings
 from typing import Any, Dict, List, Tuple, Union
 
+
 import nltk
 nltk.download("punkt")
 nltk.download("averaged_perceptron_tagger")
+
 
 def upload(urls: List[str]):
     """ This is a helper function for parsing the user inputted URLs and uploading them into the vector store. """

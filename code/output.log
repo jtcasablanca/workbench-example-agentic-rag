@@ -1,11 +1,11 @@
 http://localhost:8000
 Running on local URL:  http://0.0.0.0:8080
-IMPORTANT: You are using gradio version 4.15.0, however version 4.44.1 is available, please upgrade.
---------
 
 To create a public link, set `share=True` in `launch()`.
+IMPORTANT: You are using gradio version 4.15.0, however version 4.44.1 is available, please upgrade.
+--------
 ---ROUTE QUESTION---
-hi
+hello
 {'datasource': 'web_search'}
 ---ROUTE QUESTION TO WEB SEARCH---
 ---WEB SEARCH---
@@ -15,7 +15,7 @@ hi
 ---GRADE GENERATION vs QUESTION---
 ---DECISION: GENERATION ADDRESSES QUESTION---
 ---ROUTE QUESTION---
-what about now?
+i changed the end point.
 {'datasource': 'web_search'}
 ---ROUTE QUESTION TO WEB SEARCH---
 ---WEB SEARCH---
@@ -45,30 +45,10 @@ what about now?
 ---WEB SEARCH---
 ---GENERATE---
 ---CHECK HALLUCINATIONS---
----DECISION: GENERATION IS GROUNDED IN DOCUMENTS---
----GRADE GENERATION vs QUESTION---
----DECISION: GENERATION DOES NOT ADDRESS QUESTION---
----WEB SEARCH---
+---DECISION: GENERATION IS NOT GROUNDED IN DOCUMENTS, RE-TRY---
 ---GENERATE---
 ---CHECK HALLUCINATIONS---
----DECISION: GENERATION IS GROUNDED IN DOCUMENTS---
----GRADE GENERATION vs QUESTION---
----DECISION: GENERATION DOES NOT ADDRESS QUESTION---
----ROUTE QUESTION---
-i'm trying to debug something
-{'datasource': 'web_search'}
----ROUTE QUESTION TO WEB SEARCH---
----WEB SEARCH---
----GENERATE---
----CHECK HALLUCINATIONS---
----DECISION: GENERATION IS GROUNDED IN DOCUMENTS---
----GRADE GENERATION vs QUESTION---
----DECISION: GENERATION ADDRESSES QUESTION---
----ROUTE QUESTION---
-i just tried to change the endpoint for this app. 
-{'datasource': 'web_search'}
----ROUTE QUESTION TO WEB SEARCH---
----WEB SEARCH---
+---DECISION: GENERATION IS NOT GROUNDED IN DOCUMENTS, RE-TRY---
 ---GENERATE---
 ---CHECK HALLUCINATIONS---
 ---DECISION: GENERATION IS GROUNDED IN DOCUMENTS---

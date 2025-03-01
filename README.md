@@ -1,15 +1,13 @@
 # Table of Contents
 * [Introduction](#nvidia-ai-workbench-introduction)
-   * [Project Description](#project-description)
+   * [Overview](#overview)
      * [Project Deep Dive](#project-deep-dive)
    * [Sizing Guide](#sizing-guide)
-* [Quickstart](#quickstart)
+* [Get Started](#get-started)
    * [Prerequisites](#prerequisites)
    * [Tutorial (Desktop App)](#tutorial-desktop-app)
-   * [Tutorial (CLI-Only)](#tutorial-cli-only)
 * [License](#license)
 
-# NVIDIA AI Workbench: Introduction [![Open In AI Workbench](https://img.shields.io/badge/Open_In-AI_Workbench-76B900)](https://ngc.nvidia.com/open-ai-workbench/aHR0cHM6Ly9naXRodWIuY29tL05WSURJQS93b3JrYmVuY2gtZXhhbXBsZS1hZ2VudGljLXJhZw==)
 
 <!-- Banner Image -->
 <img src="https://developer-blogs.nvidia.com/wp-content/uploads/2024/07/rag-representation.jpg" width="100%">
@@ -22,22 +20,33 @@
   <a href="https://forums.developer.nvidia.com/t/support-workbench-example-project-agentic-rag/303414" style="color: #76B900;">:rotating_light: Facing Issues? Let Us Know!</a>
 </p>
 
-## Project Description
-This is an [NVIDIA AI Workbench](https://www.nvidia.com/en-us/deep-learning-ai/solutions/data-science/workbench/) project for developing a websearch-based [Retrieval Augmented Generation](https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/) application with a customizable Gradio Chat app. It lets you:
-* Embed your documents in the form of webpages or PDFs into a locally running Chroma vector database.
-* Run inference using remotely running endpoints and microservices.
-  * Cloud endpoints using the [NVIDIA API Catalog](https://build.nvidia.com/explore/discover)
-  * Self-hosted endpoints using [NVIDIA Inference Microservices (NIMs)](https://catalog.ngc.nvidia.com/orgs/nim/teams/meta/containers/llama3-8b-instruct/tags)
-  * Third party self-hosted microservices like Ollama.
+## Overview
+This is an [NVIDIA AI Workbench Project](https://docs.nvidia.com/ai-workbench/user-guide/latest/projects/projects.html#projects-structure) with a customizable search-based [Retrieval Augmented Generation](https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/) application with Gradio front end. The application uses an agentic approach to significantly improve results.
+
+
+* First, an LLM evaluates your query for relevance to the index and then appropriately routes it (to the DB or to search by [Tavily](https://tavily.com/))
+  * Index relevant queries trigger a retrieval step followed by a grading step, followed by the generation step.
+  * Index irrelevant questions go to web search which is then fed into the generation step.
+* All generated answers are evaluated for hallucination and for responsiveness, with "failing" answers (i.e. hallucinations or immaterial responses) run through the process again.
+
+The diagram **below** shows this agentic flow. 
  
 <img src="./code/chatui/static/agentic-flow.png" width="100%" height="auto">
 
-This project uses an agentic workflow depicted in the above diagram to improve response quality in RAG. Using LangGraph, user queries will first be sorted under a RAG or Websearch pipeline depending on an LLM evaluation of the query topic. Depending on its user-configurable prompt, the router LLM can narrow its focus on turning a specific subject or topic routable to the RAG Pipeline. 
+
+This agentic-RAG application is **configurable**. You can:
+* Change the prompts for the different components, e.g. the hallucination grader, directly within the front end.
+* Change the webpages and pdfs you want to use for the context in the RAG.
+* Use different remote endpoints or self-hosted microservices for the inference components.
+  * Cloud endpoints using endpoints from [build.nvidia.com](https://build.nvidia.com/explore/discover)
+  * Self-hosted endpoints using [NVIDIA Inference Microservices (NIMs)](https://catalog.ngc.nvidia.com/orgs/nim/teams/meta/containers/llama3-8b-instruct/tags)
+  * Third party self-hosted microservices like Ollama.
+
 
 <blockquote>
 <details>
 <summary>
-<b>Expand this section for a description of RAG Pipeline.</b>
+<b> RAG Pipeline Description </b>
 </summary>
 
 Under the retrieval pipeline, the user query is first compared to documents in the vector database and the most relevant documents are retrieved. 
@@ -50,7 +59,7 @@ After generation, another set of LLMs calls evaluate the response for hallucinat
 
 <details>
 <summary>
-<b>Expand this section for a description of Websearch Pipeline.</b>
+<b> Websearch Pipeline Description</b>
 </summary>
 
 Under the web search pipeline, the user query is inputted onto the web and the search results are retrieved. Using these results, a response is generated. 
@@ -64,6 +73,44 @@ After generation, a set of LLMs calls evaluate the response for hallucinations a
 | :---------------------------|
 | This project is meant as an example workflow and a starting point; you are free to add new models, rearrange the interface, or edit the source code as you see fit for your particular use case! |
 
+
+
+
+
+## Get Started
+
+#### Prerequisites
+
+You need NVIDIA AI Workbench installed. [See here for how to install it.](https://docs.nvidia.com/ai-workbench/user-guide/latest/installation/overview.html)
+
+You need the following API keys on hand to set the environment variables and make sure you have access to the necessary endpoints.
+   
+An NVIDIA API Key. You can generate one under ``Get API Key`` on any API Catalog [model card](https://build.nvidia.com/mistralai/mistral-7b-instruct-v2)
+
+A Tavily Search API Key. You can generate one under a free account (1000 searches/month) [here](https://app.tavily.com/home).
+
+#### Steps to Open the Chat UI
+
+1. Fork this Project to your own GitHub namespace and copy the link
+
+   ```
+   https://github.com/[your_namespace]/<project_name>
+   ```
+   
+2. Open NVIDIA AI Workbench. Select a [location to work in](https://docs.nvidia.com/ai-workbench/user-guide/latest/locations/locations.html).
+   
+3. Clone this Project (in Workbench, not with Git), and wait for the project container to build.
+   
+4. When the build completes, set the following configurations.
+
+   * `Environment` &rarr; `Secrets` &rarr; `Configure`. Specify the NVIDIA API Key and Tavily Search Key as project secrets.
+
+6. Open the **Chat** from Workbench and the chat UI should automatically open in a new browser tab. Happy chatting!
+
+7. **Note:** When doing RAG, make sure you (1) upload the document AND (2) Change the Router prompt to focus on the topic of your uploaded documents. Both changes are required for successful RAG!
+
+
+
 ### Project Deep Dive
 
 <details>
@@ -73,7 +120,7 @@ After generation, a set of LLMs calls evaluate the response for hallucinations a
 
 <img src="./code/chatui/static/example.gif" width="100%" height="auto">
 
-When the user lands on the Chat UI application in the browser, they will see several components. On the left hand side is a standard chatbot user interface with a user input for queries (submittable with ``[ENTER]``) and a clear history button. Above this chatbot is a diagram of the agentic RAG pipeline which doubles as a progress bar indicator for any nontrivial user actions a user might take, like uploading a document. 
+When the user lands on the Chat UI application in the browser, they will see several components. On the left hand side is a standard chatbot user interface with an input box for queries (submittable with ``[ENTER]``) and a clear history button. Above this chatbot is a diagram of the agentic RAG pipeline which doubles as a progress bar indicator for any nontrivial user actions a user might take, like uploading a document. 
 
 On the right hand side, users will see a collapsable settings panel with several tabs they may choose to navigate to and configure. 
 
@@ -141,83 +188,9 @@ This tab holds the agentic RAG monitoring tools built into this application.
 | 80 GB | A100-80GB | Y |
 | >80 GB | 8x A100-80GB | Y |
 
-# Quickstart
 
-## Prerequisites
-AI Workbench will prompt you to provide a few pieces of information before running any apps in this project. Ensure you have this information ready. 
-   
-   * An NVIDIA API Key. You can generate one under ``Get API Key`` on any API Catalog [model card](https://build.nvidia.com/mistralai/mistral-7b-instruct-v2)
-   * A Tavily Search API Key. You can generate one under a free account (1000 searches/month) [here](https://app.tavily.com/home).
 
-## Tutorial (Desktop App)
 
-If you do not NVIDIA AI Workbench installed, first complete the installation for AI Workbench [here](https://www.nvidia.com/en-us/deep-learning-ai/solutions/data-science/workbench/). Then, 
-
-1. Fork this Project to your own GitHub namespace and copy the link
-
-   ```
-   https://github.com/[your_namespace]/<project_name>
-   ```
-   
-2. Open NVIDIA AI Workbench. Select a location to work in. 
-   
-3. Clone this Project onto your desired machine by selecting **Clone Project** and providing the GitHub link.
-   
-4. Wait for the project to build. You can expand the bottom **Building** indicator to view real-time build logs. 
-   
-5. When the build completes, set the following configurations.
-
-   * `Environment` &rarr; `Secrets` &rarr; `Configure`. Specify the NVIDIA API Key and Tavily Search Key as project secrets.
-
-6. On the top right of the window, select **Chat**. A frontend user interface should automatically open in a new browser tab. Happy chatting!
-
-7. **Note:** When doing RAG, make sure you (1) upload the document AND (2) Change the Router prompt to focus on the topic of your uploaded documents. Both changes are required for successful RAG!
-
-## Tutorial (CLI-Only)
-Some users may choose to use the **CLI tool only** instead of the Desktop App. If you do not NVIDIA AI Workbench installed, first complete the installation for AI Workbench [here](https://www.nvidia.com/en-us/deep-learning-ai/solutions/data-science/workbench/). Then, 
-1. Fork this Project to your own GitHub namespace and copying the link
-
-   ```
-   https://github.com/[your_namespace]/<project_name>
-   ```
-   
-2. Open a shell and activating the Context you want to clone into by
-
-   ```
-   $ nvwb list contexts
-   
-   $ nvwb activate <desired_context>
-   ```
-
-   | :bulb: Tip                  |
-   | :---------------------------|
-   | Use ```nvwb help``` to see a full list of  AI Workbench commands. |
-   
-3. Clone this Project onto your desired machine by running
-
-   ```
-   $ nvwb clone project <your_project_link>
-   ```
-   
-4. Open the Project by
-
-   ```
-   $ nvwb list projects
-   
-   $ nvwb open <project_name>
-   ```
-
-5. Start **Chat** by
-
-   ```
-   $ nvwb start chat
-   ```
-
-   * Specify the NVIDIA API Key and Tavily Search Key as project secrets.
-
-6. A frontend user interface should automatically open in a new browser tab. Happy chatting!
-
-7. **Note:** When doing RAG, make sure you (1) upload the document AND (2) Change the Router prompt to focus on the topic of your uploaded documents. Both changes are required for successful RAG!
 
 # License
 This NVIDIA AI Workbench example project is under the [Apache 2.0 License](https://github.com/NVIDIA/workbench-example-agentic-rag/blob/main/LICENSE.txt)

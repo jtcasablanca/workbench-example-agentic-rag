@@ -25,11 +25,19 @@ import subprocess
 import time
 import sys
 
-API_PREFIX = os.getenv('API_PREFIX', '').rstrip('/')
+INTERNAL_API = os.getenv('INTERNAL_API', '')
 
 # Model identifiers with prefix
-LLAMA = f"{API_PREFIX}/meta/llama3-70b-instruct"
-MISTRAL = f"{API_PREFIX}/mistralai/mixtral-8x22b-instruct-v0.1"
+LLAMA = "meta/llama3-70b-instruct"
+MISTRAL = "mistralai/mixtral-8x22b-instruct-v0.1"
+
+
+
+if INTERNAL_API != '':
+    LLAMA = f'{INTERNAL_API}/meta/llama-3.1-70b-instruct'  
+    MISTRAL = f'{INTERNAL_API}/mistralai/mixtral-8x22b-instruct-v0.1'
+
+
 
 from chatui import assets, chat_client
 from chatui.prompts import prompts_llama3, prompts_mistral

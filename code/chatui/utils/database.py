@@ -20,13 +20,13 @@ from langchain_nvidia_ai_endpoints import NVIDIAEmbeddings
 from typing import Any, Dict, List, Tuple, Union
 
 import os
-API_PREFIX = os.getenv('API_PREFIX', '')
-
+INTERNAL_API = os.getenv('INTERNAL_API', '')
 
 # Set the embeddings model target
-if API_PREFIX=='':
-    EMBEDDINGS_MODEL = 'NV-Embed-QA'
-else:
+EMBEDDINGS_MODEL = 'NV-Embed-QA'
+
+#
+if INTERNAL_API != '':
     EMBEDDINGS_MODEL = 'nvdev/nvidia/nv-embedqa-e5-v5'
 
 # Download nltk data

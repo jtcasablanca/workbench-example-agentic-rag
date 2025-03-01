@@ -25,7 +25,11 @@ import subprocess
 import time
 import sys
 
-API_PREFIX = os.getenv('API_PREFIX', '')
+API_PREFIX = os.getenv('API_PREFIX', '').rstrip('/')
+
+# Model identifiers with prefix
+LLAMA = f"{API_PREFIX}/meta/llama3-70b-instruct"
+MISTRAL = f"{API_PREFIX}/mistralai/mixtral-8x22b-instruct-v0.1"
 
 from chatui import assets, chat_client
 from chatui.prompts import prompts_llama3, prompts_mistral
@@ -37,10 +41,6 @@ PATH = "/"
 TITLE = "Agentic RAG: Chat UI"
 OUTPUT_TOKENS = 250
 MAX_DOCS = 5
-
-# Model identifiers with prefix
-LLAMA = f"{API_PREFIX}meta/llama3-70b-instruct"
-MISTRAL = f"{API_PREFIX}mistralai/mixtral-8x22b-instruct-v0.1"
 
 ### Load in CSS here for components that need custom styling. ###
 
@@ -636,45 +636,45 @@ def build_page(client: chat_client.ChatClient) -> gr.Blocks:
         
         def _toggle_model_router(selected_model: str):
             match selected_model:
-                case LLAMA:
+                case str() if selected_model == LLAMA:
                     return gr.update(value=prompts_llama3.router_prompt)
-                case MISTRAL:
+                case str() if selected_model == MISTRAL:
                     return gr.update(value=prompts_mistral.router_prompt)
                 case _:
                     return gr.update(value=prompts_llama3.router_prompt)
         
         def _toggle_model_retrieval(selected_model: str):
             match selected_model:
-                case LLAMA:
+                case str() if selected_model == LLAMA:
                     return gr.update(value=prompts_llama3.retrieval_prompt)
-                case MISTRAL:
+                case str() if selected_model == MISTRAL:
                     return gr.update(value=prompts_mistral.retrieval_prompt)
                 case _:
                     return gr.update(value=prompts_llama3.retrieval_prompt)
 
         def _toggle_model_generator(selected_model: str):
             match selected_model:
-                case LLAMA:
+                case str() if selected_model == LLAMA:
                     return gr.update(value=prompts_llama3.generator_prompt)
-                case MISTRAL:
+                case str() if selected_model == MISTRAL:
                     return gr.update(value=prompts_mistral.generator_prompt)
                 case _:
                     return gr.update(value=prompts_llama3.generator_prompt)
             
         def _toggle_model_hallucination(selected_model: str):
             match selected_model:
-                case LLAMA:
+                case str() if selected_model == LLAMA:
                     return gr.update(value=prompts_llama3.hallucination_prompt)
-                case MISTRAL:
+                case str() if selected_model == MISTRAL:
                     return gr.update(value=prompts_mistral.hallucination_prompt)
                 case _:
                     return gr.update(value=prompts_llama3.hallucination_prompt)
             
         def _toggle_model_answer(selected_model: str):
             match selected_model:
-                case LLAMA:
+                case str() if selected_model == LLAMA:
                     return gr.update(value=prompts_llama3.answer_prompt)
-                case MISTRAL:
+                case str() if selected_model == MISTRAL:
                     return gr.update(value=prompts_mistral.answer_prompt)
                 case _:
                     return gr.update(value=prompts_llama3.answer_prompt)

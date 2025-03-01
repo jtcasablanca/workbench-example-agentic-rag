@@ -9,9 +9,6 @@
 * [License](#license)
 
 
-<!-- Banner Image -->
-<img src="https://developer-blogs.nvidia.com/wp-content/uploads/2024/07/rag-representation.jpg" width="100%">
-
 <!-- Links -->
 <p align="center"> 
   <a href="https://www.nvidia.com/en-us/deep-learning-ai/solutions/data-science/workbench/" style="color: #76B900;">:arrow_down: Download AI Workbench</a> •

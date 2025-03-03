@@ -1,22 +1,14 @@
 # Overview
-This is a [Retrieval Augmented Generation](https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/) application. It uses an agentic approach to combine web search, hallucination controls and accuracy checks with RAG. It has a Gradio front end.
-
-You can clone, use and customize this application using [AI Workbench](https://www.nvidia.com/en-us/deep-learning-ai/solutions/data-science/workbench/) with minimal setup and **no** terminal steps.
+This is a [Retrieval Augmented Generation](https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/) application. It uses an agentic approach to combine web search, hallucination controls and accuracy checks with RAG. It has a Gradio front end. You can clone, use and customize this application using [AI Workbench](https://www.nvidia.com/en-us/deep-learning-ai/solutions/data-science/workbench/) with minimal setup and **no** terminal steps.
 
 
-**Navigating the README:** [Application Overview](#the-agentic-rag-application) | [Get Started](#get-started) | [Deep Dive](#deep-dive) | [Self-Hosted Sizing Guide](#self-hosted-sizing-guide) | [License](#license)
+*Navigating the README:* [Application Overview](#the-agentic-rag-application) | [Get Started](#get-started) | [Deep Dive](#deep-dive) | [Self-Hosted Sizing Guide](#self-hosted-sizing-guide) | [License](#license)
 
 <!-- Links -->
-**Other Resources:** Right click to open in new tab
-<p align="left"> 
-  <a href="https://www.nvidia.com/en-us/deep-learning-ai/solutions/data-science/workbench/" target="_blank" style="color: #76B900;">:arrow_down: Download AI Workbench</a> •
-  <a href="https://docs.nvidia.com/ai-workbench/" target="_blank" style="color: #76B900;">:book: User Guide</a> •
-  <a href="https://docs.nvidia.com/ai-workbench/user-guide/latest/quickstart/example-projects.html" target="_blank" style="color: #76B900;">:open_file_folder: Other Projects</a> •
-  <a href="https://forums.developer.nvidia.com/t/support-workbench-example-project-agentic-rag/303414" target="_blank" style="color: #76B900;">:rotating_light: User Forum</a>
-</p>
+*Other Resources:* [:arrow_down: Download AI Workbench](https://www.nvidia.com/en-us/deep-learning-ai/solutions/data-science/workbench/) | [:book: User Guide](https://docs.nvidia.com/ai-workbench/) |[:open_file_folder: Other Projects](https://docs.nvidia.com/ai-workbench/user-guide/latest/quickstart/example-projects.html) | [:rotating_light: User Forum](https://forums.developer.nvidia.com/t/support-workbench-example-project-agentic-rag/303414)
 
 ## The Agentic RAG Application
-
+#### Using the Application
 1. You embed your documents, pdfs or webpages, to the vector database. 
 2. You configure the prompts for the different components, e.g. the router or retrieval grader.
 3. You submit your query.
@@ -28,7 +20,7 @@ The diagram **below** shows this agentic flow.
 <img src="./code/chatui/static/agentic-flow.png" width="100%" height="auto">
 
 
-#### Customize the Application
+#### Customizing the Application
 * Change the prompts for the different components, e.g. the hallucination grader, directly within the front end.
 * Change the webpages and pdfs you want to use for the context in the RAG.
 * Use different remote endpoints or self-hosted microservices for the inference components.
@@ -40,40 +32,36 @@ The diagram **below** shows this agentic flow.
 ## Get Started
 This RAG is implemented within an [NVIDIA AI Workbench Project](https://docs.nvidia.com/ai-workbench/user-guide/latest/projects/projects.html#projects-structure) that you can clone (or fork and clone) to run locally in AI Workbench. 
 
-#### Prerequisites
+#### Quickstart Prerequisites
 
 1. You need NVIDIA AI Workbench installed. [See here for how to install it.](https://docs.nvidia.com/ai-workbench/user-guide/latest/installation/overview.html)
 
 2. You need an NVIDIA Personal key to use build.nvidia.com endpoints, as well as a [Tavily](https://tavily.com/) API key to use their web search.
+   * You can get an NVIDIA Personal API Key on any model card, [e.g. Llama-3.3-70B-instruct](https://build.nvidia.com/meta/llama-3_3-70b-instruct?signin=true&api_key=true)
+   * You can get a Tavily Search API Key with a free account (1000 searches/month) [here](https://tavily.com/).
 
-You can get an NVIDIA ``Get API Key`` on any model card, [e.g. Llama-3.3-70B-instruct](https://build.nvidia.com/meta/llama-3_3-70b-instruct?signin=true&api_key=true)
+3. You should have some pdfs or webpages to use for the RAG.
 
-You can get a Tavily Search API Key with a free account (1000 searches/month) [here](https://tavily.com/).
-
+4. You should fork this project to your own GitHub namespace and **copy the link** to the forked repository.
 
 #### Opening the Chat
-
-1. Fork this Project to your own GitHub namespace and copy the link
-
-   ```
-   https://github.com/[your_namespace]/<project_name>
-   ```
    
-2. Open NVIDIA AI Workbench. Select a [location to work in](https://docs.nvidia.com/ai-workbench/user-guide/latest/locations/locations.html).
+1. Open NVIDIA AI Workbench. Select a [location to work in](https://docs.nvidia.com/ai-workbench/user-guide/latest/locations/locations.html).
    
-3. Clone this Project (in Workbench, not with Git), and wait for the project container to build.
+2. Clone this project with the link you copied in step 4 (in Workbench, not with Git), and wait for the project container to build.
    
-4. When the build completes, set the following configurations.
+3. When the build completes, set the following configurations.
 
    * `Environment` &rarr; `Secrets` &rarr; `Configure`. Specify the NVIDIA API Key and Tavily Search Key as project secrets.
 
-6. Open the **Chat** from Workbench and the chat UI should automatically open in a new browser tab. Happy chatting!
+4. Open the **Chat** from Workbench. It should automatically open in a new browser tab.
 
-7. **Note:** When doing RAG, make sure you (1) upload the document AND (2) Change the Router prompt to focus on the topic of your uploaded documents. Both changes are required for successful RAG!
+5. Upload your documents and change the Router prompt to focus on your uploaded documents. 
 
+6. Chat with your documents!
 
 # Deep Dive
-
+If you want to learn more about the RAG pipeline, expand the sections below.
 <blockquote>
 <details>
 <summary>
@@ -99,7 +87,6 @@ After generation, a set of LLMs calls evaluate the response for hallucinations a
 
 </details>
 </blockquote>
-
 
 <details>
 <summary>

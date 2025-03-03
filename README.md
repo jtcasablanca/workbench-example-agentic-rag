@@ -1,24 +1,22 @@
 # Overview
-* [Introduction](#introduction)
-* [Get Started](#get-started)
-  * [Prerequisites](#prerequisites)
-  * [Opening the Chat](#opening-the-chat)
-* [Deep Dive](#deep-dive)
-   * [Sizing Guide](#sizing-guide)
-* [License](#license)
+This is a customizable search-based [Retrieval Augmented Generation](https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/) application with Gradio front end. The application uses an agentic approach to significantly improve results.
+
+It is implemented within an [NVIDIA AI Workbench Project](https://docs.nvidia.com/ai-workbench/user-guide/latest/projects/projects.html#projects-structure) that you can clone and run locally in AI Workbench.
+
+
+
+**Navigation**: [Application Overview](#application-overview) | [Get Started](#get-started) | [Deep Dive](#deep-dive) | [Sizing Guide](#sizing-guide) | [License](#license)
 
 
 <!-- Links -->
-<p align="center"> 
+<p align="left"> 
   <a href="https://www.nvidia.com/en-us/deep-learning-ai/solutions/data-science/workbench/" style="color: #76B900;">:arrow_down: Download AI Workbench</a> •
-  <a href="https://docs.nvidia.com/ai-workbench/" style="color: #76B900;">:book: Read the Docs</a> •
-  <a href="https://docs.nvidia.com/ai-workbench/user-guide/latest/quickstart/example-projects.html" style="color: #76B900;">:open_file_folder: Explore Example Projects</a> •
-  <a href="https://forums.developer.nvidia.com/t/support-workbench-example-project-agentic-rag/303414" style="color: #76B900;">:rotating_light: Facing Issues? Let Us Know!</a>
+  <a href="https://docs.nvidia.com/ai-workbench/" style="color: #76B900;">:book: User Guide</a> •
+  <a href="https://docs.nvidia.com/ai-workbench/user-guide/latest/quickstart/example-projects.html" style="color: #76B900;">:open_file_folder: Other Projects</a> •
+  <a href="https://forums.developer.nvidia.com/t/support-workbench-example-project-agentic-rag/303414" style="color: #76B900;">:rotating_light: User Forum</a>
 </p>
 
-## Introduction
-This is an [NVIDIA AI Workbench Project](https://docs.nvidia.com/ai-workbench/user-guide/latest/projects/projects.html#projects-structure) with a customizable search-based [Retrieval Augmented Generation](https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/) application with Gradio front end. The application uses an agentic approach to significantly improve results.
-
+## Application Overview
 
 * First, an LLM evaluates your query for relevance to the index and then appropriately routes it (to the DB or to search by [Tavily](https://tavily.com/))
   * Index relevant queries trigger a retrieval step followed by a grading step, followed by the generation step.
@@ -28,7 +26,6 @@ This is an [NVIDIA AI Workbench Project](https://docs.nvidia.com/ai-workbench/us
 The diagram **below** shows this agentic flow. 
  
 <img src="./code/chatui/static/agentic-flow.png" width="100%" height="auto">
-
 
 This agentic-RAG application is **configurable**. You can:
 * Change the prompts for the different components, e.g. the hallucination grader, directly within the front end.
@@ -77,7 +74,6 @@ You can get a Tavily Search API Key with a free account (1000 searches/month) [h
 6. Open the **Chat** from Workbench and the chat UI should automatically open in a new browser tab. Happy chatting!
 
 7. **Note:** When doing RAG, make sure you (1) upload the document AND (2) Change the Router prompt to focus on the topic of your uploaded documents. Both changes are required for successful RAG!
-
 
 
 # Deep Dive

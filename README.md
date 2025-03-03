@@ -1,11 +1,10 @@
-# Table of Contents
-* [Introduction](#nvidia-ai-workbench-introduction)
-   * [Overview](#overview)
-     * [Project Deep Dive](#project-deep-dive)
-   * [Sizing Guide](#sizing-guide)
+# Overview
+* [Introduction](#introduction)
 * [Get Started](#get-started)
-   * [Prerequisites](#prerequisites)
-   * [Tutorial (Desktop App)](#tutorial-desktop-app)
+  * [Prerequisites](#prerequisites)
+  * [Opening the Chat](#opening-the-chat)
+* [Deep Dive](#deep-dive)
+   * [Sizing Guide](#sizing-guide)
 * [License](#license)
 
 
@@ -17,14 +16,14 @@
   <a href="https://forums.developer.nvidia.com/t/support-workbench-example-project-agentic-rag/303414" style="color: #76B900;">:rotating_light: Facing Issues? Let Us Know!</a>
 </p>
 
-## Overview
+## Introduction
 This is an [NVIDIA AI Workbench Project](https://docs.nvidia.com/ai-workbench/user-guide/latest/projects/projects.html#projects-structure) with a customizable search-based [Retrieval Augmented Generation](https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/) application with Gradio front end. The application uses an agentic approach to significantly improve results.
 
 
 * First, an LLM evaluates your query for relevance to the index and then appropriately routes it (to the DB or to search by [Tavily](https://tavily.com/))
   * Index relevant queries trigger a retrieval step followed by a grading step, followed by the generation step.
   * Index irrelevant questions go to web search which is then fed into the generation step.
-* All generated answers are evaluated for hallucination and for responsiveness, with "failing" answers (i.e. hallucinations or immaterial responses) run through the process again.
+* Second, all generated answers are checked for hallucination and relevance, with "failing" answers (i.e. hallucinations or immaterial responses) run through the process again.
 
 The diagram **below** shows this agentic flow. 
  
@@ -39,6 +38,49 @@ This agentic-RAG application is **configurable**. You can:
   * Self-hosted endpoints using [NVIDIA Inference Microservices (NIMs)](https://catalog.ngc.nvidia.com/orgs/nim/teams/meta/containers/llama3-8b-instruct/tags)
   * Third party self-hosted microservices like Ollama.
 
+
+| :memo: Remember             |
+| :---------------------------|
+| This project is an **example** that you can **modify**. In addition to changing the prompts in the Gradio UI, you can edit the code
+  and do whatever you want like adding new models, changing the Gradio interface, or even changing the logic. |
+
+
+## Get Started
+
+#### Prerequisites
+
+1. You need NVIDIA AI Workbench installed. [See here for how to install it.](https://docs.nvidia.com/ai-workbench/user-guide/latest/installation/overview.html)
+
+2. You need an NVIDIA Personal key to use build.nvidia.com endpoints, as well as a [Tavily](https://tavily.com/) API key to use their web search.
+
+You can get an NVIDIA ``Get API Key`` on any model card, [e.g. Llama-3.3-70B-instruct](https://build.nvidia.com/meta/llama-3_3-70b-instruct?signin=true&api_key=true)
+
+You can get a Tavily Search API Key with a free account (1000 searches/month) [here](https://tavily.com/).
+
+
+#### Opening the Chat
+
+1. Fork this Project to your own GitHub namespace and copy the link
+
+   ```
+   https://github.com/[your_namespace]/<project_name>
+   ```
+   
+2. Open NVIDIA AI Workbench. Select a [location to work in](https://docs.nvidia.com/ai-workbench/user-guide/latest/locations/locations.html).
+   
+3. Clone this Project (in Workbench, not with Git), and wait for the project container to build.
+   
+4. When the build completes, set the following configurations.
+
+   * `Environment` &rarr; `Secrets` &rarr; `Configure`. Specify the NVIDIA API Key and Tavily Search Key as project secrets.
+
+6. Open the **Chat** from Workbench and the chat UI should automatically open in a new browser tab. Happy chatting!
+
+7. **Note:** When doing RAG, make sure you (1) upload the document AND (2) Change the Router prompt to focus on the topic of your uploaded documents. Both changes are required for successful RAG!
+
+
+
+# Deep Dive
 
 <blockquote>
 <details>
@@ -66,49 +108,6 @@ After generation, a set of LLMs calls evaluate the response for hallucinations a
 </details>
 </blockquote>
 
-| :memo: Remember             |
-| :---------------------------|
-| This project is meant as an example workflow and a starting point; you are free to add new models, rearrange the interface, or edit the source code as you see fit for your particular use case! |
-
-
-
-
-
-## Get Started
-
-#### Prerequisites
-
-You need NVIDIA AI Workbench installed. [See here for how to install it.](https://docs.nvidia.com/ai-workbench/user-guide/latest/installation/overview.html)
-
-You need the following API keys on hand to set the environment variables and make sure you have access to the necessary endpoints.
-   
-An NVIDIA API Key. You can generate one under ``Get API Key`` on any API Catalog [model card](https://build.nvidia.com/mistralai/mistral-7b-instruct-v2)
-
-A Tavily Search API Key. You can generate one under a free account (1000 searches/month) [here](https://app.tavily.com/home).
-
-#### Steps to Open the Chat UI
-
-1. Fork this Project to your own GitHub namespace and copy the link
-
-   ```
-   https://github.com/[your_namespace]/<project_name>
-   ```
-   
-2. Open NVIDIA AI Workbench. Select a [location to work in](https://docs.nvidia.com/ai-workbench/user-guide/latest/locations/locations.html).
-   
-3. Clone this Project (in Workbench, not with Git), and wait for the project container to build.
-   
-4. When the build completes, set the following configurations.
-
-   * `Environment` &rarr; `Secrets` &rarr; `Configure`. Specify the NVIDIA API Key and Tavily Search Key as project secrets.
-
-6. Open the **Chat** from Workbench and the chat UI should automatically open in a new browser tab. Happy chatting!
-
-7. **Note:** When doing RAG, make sure you (1) upload the document AND (2) Change the Router prompt to focus on the topic of your uploaded documents. Both changes are required for successful RAG!
-
-
-
-### Project Deep Dive
 
 <details>
 <summary>

@@ -10,9 +10,9 @@ You can clone, use and customize this application using [AI Workbench](https://w
 **Other Resources:**
 <p align="left"> 
   <a href="https://www.nvidia.com/en-us/deep-learning-ai/solutions/data-science/workbench/" target="_blank" style="color: #76B900;">:arrow_down: Download AI Workbench</a> •
-  <a href="https://docs.nvidia.com/ai-workbench/" style="color: #76B900;">:book: User Guide</a> •
-  <a href="https://docs.nvidia.com/ai-workbench/user-guide/latest/quickstart/example-projects.html" style="color: #76B900;">:open_file_folder: Other Projects</a> •
-  <a href="https://forums.developer.nvidia.com/t/support-workbench-example-project-agentic-rag/303414" style="color: #76B900;">:rotating_light: User Forum</a>
+  <a href="https://docs.nvidia.com/ai-workbench/" target="_blank" style="color: #76B900;">:book: User Guide</a> •
+  <a href="https://docs.nvidia.com/ai-workbench/user-guide/latest/quickstart/example-projects.html" target="_blank" style="color: #76B900;">:open_file_folder: Other Projects</a> •
+  <a href="https://forums.developer.nvidia.com/t/support-workbench-example-project-agentic-rag/303414" target="_blank" style="color: #76B900;">:rotating_light: User Forum</a>
 </p>
 
 ## The Agentic RAG Application

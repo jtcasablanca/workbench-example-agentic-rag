@@ -1,13 +1,13 @@
 # Overview
-This is a [Retrieval Augmented Generation](https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/) application that uses an agentic approach to combine search with RAG, as well as hallucination and accuracy checks. It has a Gradio front end and the entire thing is customizable.
+This is a [Retrieval Augmented Generation](https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/) application that uses an agentic approach to combine search, hallucination controls and accuracy checks with RAG. It has a Gradio front end and the entire thing is customizable.
 
 You can clone and use this application using [AI Workbench](https://www.nvidia.com/en-us/deep-learning-ai/solutions/data-science/workbench/) with minimal setup and **no need to do anything in a terminal**.
 
 
-#### Navigating the README and Other Resources: 
-[Application Overview](#the-agentic-rag-application) | [Get Started](#get-started) | [Deep Dive](#deep-dive) | [Sizing Guide](#sizing-guide) | [License](#license)
+**Navigating the README:** [Application Overview](#the-agentic-rag-application) | [Get Started](#get-started) | [Deep Dive](#deep-dive) | [Sizing Guide](#sizing-guide) | [License](#license)
 
 <!-- Links -->
+**Other Resources:**
 <p align="left"> 
   <a href="https://www.nvidia.com/en-us/deep-learning-ai/solutions/data-science/workbench/" style="color: #76B900;">:arrow_down: Download AI Workbench</a> •
   <a href="https://docs.nvidia.com/ai-workbench/" style="color: #76B900;">:book: User Guide</a> •
@@ -16,8 +16,6 @@ You can clone and use this application using [AI Workbench](https://www.nvidia.c
 </p>
 
 ## The Agentic RAG Application
-
-This application uses an agentic approach to add a few extra steps to the typical RAG pipeline.
 
 * First, an LLM evaluates your query for relevance to the index and then routes it to the DB or to search by [Tavily](https://tavily.com/).
   * Index relevant queries trigger a retrieval step followed by a grading step, followed by the generation step.
@@ -28,7 +26,7 @@ The diagram **below** shows this agentic flow.
  
 <img src="./code/chatui/static/agentic-flow.png" width="100%" height="auto">
 
-This agentic-RAG application is **configurable**. You can:
+This application is **configurable** from within the Gradio UI. You can:
 * Change the prompts for the different components, e.g. the hallucination grader, directly within the front end.
 * Change the webpages and pdfs you want to use for the context in the RAG.
 * Use different remote endpoints or self-hosted microservices for the inference components.

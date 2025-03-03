@@ -7,7 +7,7 @@ You can clone, use and customize this application using [AI Workbench](https://w
 **Navigating the README:** [Application Overview](#the-agentic-rag-application) | [Get Started](#get-started) | [Deep Dive](#deep-dive) | [Self-Hosted Sizing Guide](#self-hosted-sizing-guide) | [License](#license)
 
 <!-- Links -->
-**Other Resources:**
+**Other Resources:** Right click to open in new tab
 <p align="left"> 
   <a href="https://www.nvidia.com/en-us/deep-learning-ai/solutions/data-science/workbench/" target="_blank" style="color: #76B900;">:arrow_down: Download AI Workbench</a> •
   <a href="https://docs.nvidia.com/ai-workbench/" target="_blank" style="color: #76B900;">:book: User Guide</a> •

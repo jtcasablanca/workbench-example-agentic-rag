@@ -1,10 +1,10 @@
 # Overview
-This is a [Retrieval Augmented Generation](https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/) application that uses an agentic approach to combine search, hallucination controls and accuracy checks with RAG. It has a Gradio front end and the entire thing is customizable.
+This is a [Retrieval Augmented Generation](https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/) application that uses an agentic approach to combine web search, hallucination controls and accuracy checks with RAG. It has a Gradio front end and the entire thing is customizable.
 
-You can clone and use this application using [AI Workbench](https://www.nvidia.com/en-us/deep-learning-ai/solutions/data-science/workbench/) with minimal setup and **no need to do anything in a terminal**.
+You can clone and use this application using [AI Workbench](https://www.nvidia.com/en-us/deep-learning-ai/solutions/data-science/workbench/) with minimal setup and **no** terminal steps.
 
 
-**Navigating the README:** [Application Overview](#the-agentic-rag-application) | [Get Started](#get-started) | [Deep Dive](#deep-dive) | [Sizing Guide](#sizing-guide) | [License](#license)
+**Navigating the README:** [Application Overview](#the-agentic-rag-application) | [Get Started](#get-started) | [Deep Dive](#deep-dive) | [Self-Hosted Sizing Guide](#self-hosted-sizing-guide) | [License](#license)
 
 <!-- Links -->
 **Other Resources:**
@@ -38,7 +38,7 @@ You can:
 
 | :memo: Modify this Application!!!  |
 | :---------------------------|
-| This project is a development environment. You can edit the code to change things, like adding new models, changing the Gradio interface, or even changing the logic. |
+| This isn't just an application. It's a development environment. You can edit the code to change things, like adding new models, changing the Gradio interface, or even changing the logic. |
 
 ## Get Started
 This RAG is implemented within an [NVIDIA AI Workbench Project](https://docs.nvidia.com/ai-workbench/user-guide/latest/projects/projects.html#projects-structure) that you can clone (or fork and clone) to run locally in AI Workbench. 
@@ -166,7 +166,7 @@ This tab holds the agentic RAG monitoring tools built into this application.
 
 </details>
 
-## Sizing Guide
+## Self-Hosted Sizing Guide
 
 | GPU VRAM | Example Hardware | Compatible? |
 | -------- | ------- | ------- |

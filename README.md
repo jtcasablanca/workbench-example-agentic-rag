@@ -1,7 +1,7 @@
 # Overview
-This is a [Retrieval Augmented Generation](https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/) application that uses an agentic approach to combine web search, hallucination controls and accuracy checks with RAG. It has a Gradio front end and the entire thing is customizable.
+This is a [Retrieval Augmented Generation](https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/) application. It uses an agentic approach to combine web search, hallucination controls and accuracy checks with RAG. It has a Gradio front end.
 
-You can clone and use this application using [AI Workbench](https://www.nvidia.com/en-us/deep-learning-ai/solutions/data-science/workbench/) with minimal setup and **no** terminal steps.
+You can clone, use and customize this application using [AI Workbench](https://www.nvidia.com/en-us/deep-learning-ai/solutions/data-science/workbench/) with minimal setup and **no** terminal steps.
 
 
 **Navigating the README:** [Application Overview](#the-agentic-rag-application) | [Get Started](#get-started) | [Deep Dive](#deep-dive) | [Self-Hosted Sizing Guide](#self-hosted-sizing-guide) | [License](#license)
@@ -9,7 +9,7 @@ You can clone and use this application using [AI Workbench](https://www.nvidia.c
 <!-- Links -->
 **Other Resources:**
 <p align="left"> 
-  <a href="https://www.nvidia.com/en-us/deep-learning-ai/solutions/data-science/workbench/" style="color: #76B900;">:arrow_down: Download AI Workbench</a> •
+  <a href="https://www.nvidia.com/en-us/deep-learning-ai/solutions/data-science/workbench/" target="_blank" style="color: #76B900;">:arrow_down: Download AI Workbench</a> •
   <a href="https://docs.nvidia.com/ai-workbench/" style="color: #76B900;">:book: User Guide</a> •
   <a href="https://docs.nvidia.com/ai-workbench/user-guide/latest/quickstart/example-projects.html" style="color: #76B900;">:open_file_folder: Other Projects</a> •
   <a href="https://forums.developer.nvidia.com/t/support-workbench-example-project-agentic-rag/303414" style="color: #76B900;">:rotating_light: User Forum</a>
@@ -17,28 +17,25 @@ You can clone and use this application using [AI Workbench](https://www.nvidia.c
 
 ## The Agentic RAG Application
 
-* First, an LLM evaluates your query for relevance to the index and then routes it to the DB or to search by [Tavily](https://tavily.com/).
-  * Index relevant queries trigger a retrieval step followed by a grading step, followed by the generation step.
-  * Index irrelevant questions go to web search which is then fed into the generation step.
-* Second, all generated answers are checked for hallucination and relevance, with "failing" answers (i.e. hallucinations or immaterial responses) run through the process again.
+1. You embed your documents, pdfs or webpages, to the vector database. 
+2. You configure the prompts for the different components, e.g. the router or retrieval grader.
+3. You submit your query.
+4. An LLM evaluates your query for relevance to the index and then routes it to the DB or to search by [Tavily](https://tavily.com/).
+5. Answers are checked for hallucination and relevance. "Failing"" answers are run through the  process again.
 
 The diagram **below** shows this agentic flow. 
  
 <img src="./code/chatui/static/agentic-flow.png" width="100%" height="auto">
 
-This application is **configurable** from within the Gradio UI. 
 
-You can:
+#### Customize the Application
 * Change the prompts for the different components, e.g. the hallucination grader, directly within the front end.
 * Change the webpages and pdfs you want to use for the context in the RAG.
 * Use different remote endpoints or self-hosted microservices for the inference components.
   * Cloud endpoints using endpoints from [build.nvidia.com](https://build.nvidia.com/explore/discover)
   * Self-hosted endpoints using [NVIDIA Inference Microservices (NIMs)](https://catalog.ngc.nvidia.com/orgs/nim/teams/meta/containers/llama3-8b-instruct/tags)
   * Third party self-hosted microservices like Ollama.
-
-| :memo: Modify this Application!!!  |
-| :---------------------------|
-| This isn't just an application. It's a development environment. You can edit the code to change things, like adding new models, changing the Gradio interface, or even changing the logic. |
+* Modify the application code to add new models, change the Gradio interface, or even change the logic.
 
 ## Get Started
 This RAG is implemented within an [NVIDIA AI Workbench Project](https://docs.nvidia.com/ai-workbench/user-guide/latest/projects/projects.html#projects-structure) that you can clone (or fork and clone) to run locally in AI Workbench. 

@@ -1,12 +1,11 @@
 # Overview
-This is a customizable search-based [Retrieval Augmented Generation](https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/) application with Gradio front end. The application uses an agentic approach to significantly improve results.
+This is a [Retrieval Augmented Generation](https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/) application that uses an agentic approach to combine search with RAG, as well as hallucination and accuracy checks. It has a Gradio front end and the entire thing is customizable.
 
-It is implemented within an [NVIDIA AI Workbench Project](https://docs.nvidia.com/ai-workbench/user-guide/latest/projects/projects.html#projects-structure) that you can clone and run locally in AI Workbench.
+You can clone and use this application using [AI Workbench](https://www.nvidia.com/en-us/deep-learning-ai/solutions/data-science/workbench/) with minimal setup and **no need to do anything in a terminal**.
 
 
-
-**Navigation**: [Application Overview](#application-overview) | [Get Started](#get-started) | [Deep Dive](#deep-dive) | [Sizing Guide](#sizing-guide) | [License](#license)
-
+#### Navigating the README and Other Resources: 
+[Application Overview](#the-agentic-rag-application) | [Get Started](#get-started) | [Deep Dive](#deep-dive) | [Sizing Guide](#sizing-guide) | [License](#license)
 
 <!-- Links -->
 <p align="left"> 
@@ -16,9 +15,11 @@ It is implemented within an [NVIDIA AI Workbench Project](https://docs.nvidia.co
   <a href="https://forums.developer.nvidia.com/t/support-workbench-example-project-agentic-rag/303414" style="color: #76B900;">:rotating_light: User Forum</a>
 </p>
 
-## Application Overview
+## The Agentic RAG Application
 
-* First, an LLM evaluates your query for relevance to the index and then appropriately routes it (to the DB or to search by [Tavily](https://tavily.com/))
+This application uses an agentic approach to add a few extra steps to the typical RAG pipeline.
+
+* First, an LLM evaluates your query for relevance to the index and then routes it to the DB or to search by [Tavily](https://tavily.com/).
   * Index relevant queries trigger a retrieval step followed by a grading step, followed by the generation step.
   * Index irrelevant questions go to web search which is then fed into the generation step.
 * Second, all generated answers are checked for hallucination and relevance, with "failing" answers (i.e. hallucinations or immaterial responses) run through the process again.
@@ -36,13 +37,8 @@ This agentic-RAG application is **configurable**. You can:
   * Third party self-hosted microservices like Ollama.
 
 
-| :memo: Remember             |
-| :---------------------------|
-| This project is an **example** that you can **modify**. In addition to changing the prompts in the Gradio UI, you can edit the code
-  and do whatever you want like adding new models, changing the Gradio interface, or even changing the logic. |
-
-
 ## Get Started
+This RAG is implemented within an [NVIDIA AI Workbench Project](https://docs.nvidia.com/ai-workbench/user-guide/latest/projects/projects.html#projects-structure) that you can clone (or fork and clone) to run locally in AI Workbench. 
 
 #### Prerequisites
 
@@ -75,6 +71,9 @@ You can get a Tavily Search API Key with a free account (1000 searches/month) [h
 
 7. **Note:** When doing RAG, make sure you (1) upload the document AND (2) Change the Router prompt to focus on the topic of your uploaded documents. Both changes are required for successful RAG!
 
+| :memo: Remember             |
+| :---------------------------|
+| This project is a **developerment environment** that you can **modify**. In addition to changing the prompts in the Gradio UI, you can edit the code and do whatever you want like adding new models, changing the Gradio interface, or even changing the logic. |
 
 # Deep Dive
 

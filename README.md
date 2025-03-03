@@ -26,7 +26,9 @@ The diagram **below** shows this agentic flow.
  
 <img src="./code/chatui/static/agentic-flow.png" width="100%" height="auto">
 
-This application is **configurable** from within the Gradio UI. You can:
+This application is **configurable** from within the Gradio UI. 
+
+You can:
 * Change the prompts for the different components, e.g. the hallucination grader, directly within the front end.
 * Change the webpages and pdfs you want to use for the context in the RAG.
 * Use different remote endpoints or self-hosted microservices for the inference components.
@@ -34,6 +36,9 @@ This application is **configurable** from within the Gradio UI. You can:
   * Self-hosted endpoints using [NVIDIA Inference Microservices (NIMs)](https://catalog.ngc.nvidia.com/orgs/nim/teams/meta/containers/llama3-8b-instruct/tags)
   * Third party self-hosted microservices like Ollama.
 
+| :memo: Modify this Application!!!  |
+| :---------------------------|
+| This project is a development environment. You can edit the code to change things, like adding new models, changing the Gradio interface, or even changing the logic. |
 
 ## Get Started
 This RAG is implemented within an [NVIDIA AI Workbench Project](https://docs.nvidia.com/ai-workbench/user-guide/latest/projects/projects.html#projects-structure) that you can clone (or fork and clone) to run locally in AI Workbench. 
@@ -69,9 +74,6 @@ You can get a Tavily Search API Key with a free account (1000 searches/month) [h
 
 7. **Note:** When doing RAG, make sure you (1) upload the document AND (2) Change the Router prompt to focus on the topic of your uploaded documents. Both changes are required for successful RAG!
 
-| :memo: Remember             |
-| :---------------------------|
-| This project is a **developerment environment** that you can **modify**. In addition to changing the prompts in the Gradio UI, you can edit the code and do whatever you want like adding new models, changing the Gradio interface, or even changing the logic. |
 
 # Deep Dive
 

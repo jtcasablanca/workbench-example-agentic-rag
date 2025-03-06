@@ -32,7 +32,7 @@ The diagram **below** shows this agentic flow.
 ## Get Started
 This RAG is implemented within an [NVIDIA AI Workbench Project](https://docs.nvidia.com/ai-workbench/user-guide/latest/projects/projects.html#projects-structure) that you can clone (or fork and clone) to run locally in AI Workbench. 
 
-#### Quickstart Prerequisites
+#### Prerequisites
 
 1. You need NVIDIA AI Workbench installed. [See here for how to install it.](https://docs.nvidia.com/ai-workbench/user-guide/latest/installation/overview.html)
 

@@ -36,12 +36,12 @@ The diagram **below** shows this agentic flow.
 #### Modifying the Application
 
 * Directly within the app you can:
-   * Change the prompts for the different components, e.g. the hallucination grader, directly within the front end.
+   * Change the prompts for the different components, e.g. the hallucination grader.
    * Change the webpages and pdfs you want to use for the context in the RAG.
-   * Select different endpoints rom [build.nvidia.com](https://build.nvidia.com/explore/discover) for the inference components.
+   * Select different endpoints from [build.nvidia.com](https://build.nvidia.com/explore/discover) for the inference components.
 * You can also use self-hosted endpoints that you setup yourself.
-  * *Advanced: Self-hosted endpoints using [NVIDIA Inference Microservices (NIMs)](https://catalog.ngc.nvidia.com/orgs/nim/teams/meta/containers/llama3-8b-instruct/tags)*
-  * *Advanced: Self-hosted endpoints with Ollama.*
+  * *Advanced: Self-hosted endpoint with [NVIDIA Inference Microservices (NIMs)](https://catalog.ngc.nvidia.com/orgs/nim/teams/meta/containers/llama3-8b-instruct/tags)*
+  * *Advanced: Self-hosted endpoint with [Ollama](https://hub.docker.com/r/ollama/ollama).*
 * You can also modify the application code to:
    * Add new endpoints and endpoint providers
    * Change the Gradio interface or the application.
@@ -82,6 +82,18 @@ The diagram **below** shows this agentic flow.
 
 ## Deep Dive
 #### Using a Self-Hosted Endpoint
+If you want to run your own models on your own GPUs, you will need to setup containerized endpoints and then connect them to the RAG application.
+This requires some manual steps, but if you are relatively familiar with containers and NVIDIA software, it shouldn't be too bad.
+
+#### Prerequisites for Using a Self-Hosted Endpoint
+
+1. You need a remote system with a sufficient GPU that you have SSH access to.
+
+2. The remote should have the following installed:
+   * Ubuntu 22.04 or higher
+   * The latest NVIDIA drivers
+   * The latest version of Docker
+   * The latest version of the NVIDIA Container Toolkit
 
 
 
@@ -98,7 +110,6 @@ The diagram **below** shows this agentic flow.
 | 48 GB | RTX 6000 Ada, L40/L40S, A40 | Y |
 | 80 GB | A100-80GB | Y |
 | >80 GB | 8x A100-80GB | Y |
-
 
 
 

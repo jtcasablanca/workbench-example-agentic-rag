@@ -49,7 +49,7 @@ def upload(urls: List[str]):
     vectorstore = Chroma.from_documents(
         documents=doc_splits,
         collection_name="rag-chroma",
-        embedding=NVIDIAEmbeddings(model='EMBEDDINGS_MODEL'),
+        embedding=NVIDIAEmbeddings(model=EMBEDDINGS_MODEL),
         persist_directory="/project/data",
     )
     return vectorstore
@@ -68,7 +68,7 @@ def upload_pdf(documents: List[str]):
     vectorstore = Chroma.from_documents(
         documents=doc_splits,
         collection_name="rag-chroma",
-        embedding=NVIDIAEmbeddings(model='EMBEDDINGS_MODEL'),
+        embedding=NVIDIAEmbeddings(model=EMBEDDINGS_MODEL),
         persist_directory="/project/data",
     )
     return vectorstore
@@ -77,7 +77,7 @@ def clear():
     """ This is a helper function for emptying the collection the vector store. """
     vectorstore = Chroma(
         collection_name="rag-chroma",
-        embedding_function=NVIDIAEmbeddings(model='EMBEDDINGS_MODEL'),
+        embedding_function=NVIDIAEmbeddings(model=EMBEDDINGS_MODEL),
         persist_directory="/project/data",
     )
     
@@ -88,7 +88,7 @@ def get_retriever():
     """ This is a helper function for returning the retriever object of the vector store. """
     vectorstore = Chroma(
         collection_name="rag-chroma",
-        embedding_function=NVIDIAEmbeddings(model='EMBEDDINGS_MODEL'),
+        embedding_function=NVIDIAEmbeddings(model=EMBEDDINGS_MODEL),
         persist_directory="/project/data",
     )
     retriever = vectorstore.as_retriever()

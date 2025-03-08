@@ -1,15 +1,24 @@
-# Overview
-This is a [Retrieval Augmented Generation](https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/) application. It uses an agentic approach to combine web search, hallucination controls and accuracy checks with RAG. It has a Gradio front end. You can clone, use and customize this application using [AI Workbench](https://www.nvidia.com/en-us/deep-learning-ai/solutions/data-science/workbench/) with minimal setup and **no** terminal steps.
+# Overview: An Easy Button for 
+This [Retrieval Augmented Generation](https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/) application uses an agentic approach to combine web search, hallucination controls and accuracy checks with RAG. Built with a Gradio front end, you can run it with AI Workbench without any complex setup.
 
+The only requirement is curiosity. You don't need to be a developer or an expert.
 
 *Navigating the README:* [Application Overview](#the-agentic-rag-application) | [Get Started](#get-started) | [Deep Dive](#deep-dive) | [Self-Hosted Sizing Guide](#self-hosted-sizing-guide) | [License](#license)
 
 <!-- Links -->
 *Other Resources:* [:arrow_down: Download AI Workbench](https://www.nvidia.com/en-us/deep-learning-ai/solutions/data-science/workbench/) | [:book: User Guide](https://docs.nvidia.com/ai-workbench/) |[:open_file_folder: Other Projects](https://docs.nvidia.com/ai-workbench/user-guide/latest/quickstart/example-projects.html) | [:rotating_light: User Forum](https://forums.developer.nvidia.com/t/support-workbench-example-project-agentic-rag/303414)
 
+<br>
+
+
+> **Note:**
+> You may want to [**fork**](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo#forking-a-repository) this repository into your own account before proceeding. Otherwise you won't be able to fully retain any changes you make because this NVIDIA owned repository is **read-only**.
+
+<br>
+
 ## The Agentic RAG Application
 #### Using the Application
-1. You embed your documents, pdfs or webpages, to the vector database. 
+1. You embed your documents (pdfs or webpages) to the vector database. 
 2. You configure the prompts for the different components, e.g. the router or retrieval grader.
 3. You submit your query.
 4. An LLM evaluates your query for relevance to the index and then routes it to the DB or to search by [Tavily](https://tavily.com/).
@@ -20,45 +29,50 @@ The diagram **below** shows this agentic flow.
 <img src="./code/chatui/static/agentic-flow.png" width="100%" height="auto">
 
 
-#### Customizing the Application
-* Change the prompts for the different components, e.g. the hallucination grader, directly within the front end.
-* Change the webpages and pdfs you want to use for the context in the RAG.
-* Use different remote endpoints or self-hosted microservices for the inference components.
+#### Modifying the Application
+
+* You can change the prompts for the different components, e.g. the hallucination grader, directly within the front end.
+* You can change the webpages and pdfs you want to use for the context in the RAG.
+* You can select different endpoints for the inference components. 
   * Cloud endpoints using endpoints from [build.nvidia.com](https://build.nvidia.com/explore/discover)
-  * Self-hosted endpoints using [NVIDIA Inference Microservices (NIMs)](https://catalog.ngc.nvidia.com/orgs/nim/teams/meta/containers/llama3-8b-instruct/tags)
-  * Third party self-hosted microservices like Ollama.
-* Modify the application code to add new models, change the Gradio interface, or even change the logic.
+  * *Advanced: Self-hosted endpoints using [NVIDIA Inference Microservices (NIMs)](https://catalog.ngc.nvidia.com/orgs/nim/teams/meta/containers/llama3-8b-instruct/tags)*
+  * *Advanced: Self-hosted endpoints with Ollama.*
+* You can modify the application code to add new models, add your own endpoints, change the Gradio interface, or even change the logic.
 
 ## Get Started
-This RAG is implemented within an [NVIDIA AI Workbench Project](https://docs.nvidia.com/ai-workbench/user-guide/latest/projects/projects.html#projects-structure) that you can clone (or fork and clone) to run locally in AI Workbench. 
+This app runs in [NVIDIA AI Workbench Project](https://docs.nvidia.com/ai-workbench/user-guide/latest/overview/introduction.html). 
 
-#### Prerequisites
+#### Prerequisites for Using build.nvidia.com Endpoints
 
-1. You need NVIDIA AI Workbench installed. [See here for how to install it.](https://docs.nvidia.com/ai-workbench/user-guide/latest/installation/overview.html)
+1. Install [AI Workbench](https://docs.nvidia.com/ai-workbench/user-guide/latest/installation/overview.html).
 
-2. You need an NVIDIA Personal key to use build.nvidia.com endpoints, as well as a [Tavily](https://tavily.com/) API key to use their web search.
-   * You can get an NVIDIA Personal API Key on any model card, [e.g. Llama-3.3-70B-instruct](https://build.nvidia.com/meta/llama-3_3-70b-instruct?signin=true&api_key=true)
-   * You can get a Tavily Search API Key with a free account (1000 searches/month) [here](https://tavily.com/).
+2. Get an NVIDIA Developer Account and an API key.
+   * Go to [build.nvidia.com](https://build.nvidia.com/) and click `Login`.
+   * Create account, verify email.
+   * Make a Cloud Account.
+   * Click your initial > `API Keys`.
+   * Create and save your key.
 
-3. You should have some pdfs or webpages to use for the RAG.
+3. Get a Tavily account and an API key.
+   * Go to [Tavily](https://tavily.com/) and create an account.
+   * Create an API key on the overview page.
+     
+4. Have some pdfs or web pages to put in the RAG.
 
-4. You should fork this project to your own GitHub namespace and **copy the link** to the forked repository.
 
 #### Opening the Chat
    
 1. Open NVIDIA AI Workbench. Select a [location to work in](https://docs.nvidia.com/ai-workbench/user-guide/latest/locations/locations.html).
    
-2. Clone this project with the link you copied in step 4 (in Workbench, not with Git), and wait for the project container to build.
+2. Use the repository URL to clone this project with AI Workbench and wait for it to build.
    
-3. When the build completes, set the following configurations.
-
-   * `Environment` &rarr; `Secrets` &rarr; `Configure`. Specify the NVIDIA API Key and Tavily Search Key as project secrets.
+3. Add your NVIDIA API key and the Tavily API key when prompted.
 
 4. Open the **Chat** from Workbench. It should automatically open in a new browser tab.
 
 5. Upload your documents and change the Router prompt to focus on your uploaded documents. 
 
-6. Chat with your documents!
+6. Start chatting.
 
 # Deep Dive
 If you want to learn more about the RAG pipeline, expand the sections below.

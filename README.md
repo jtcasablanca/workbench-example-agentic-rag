@@ -1,8 +1,8 @@
 # Overview: An Easy Button for Agentic RAG
-This [Retrieval Augmented Generation](https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/) application uses an agentic approach to combine web search, hallucination controls and accuracy checks with RAG. Built with a Gradio front end, you can run it with AI Workbench without any complex setup.
+This Retrieval Augmented Generation (RAG) application uses an agentic approach to combine web search, hallucination controls and accuracy checks with RAG. It has a friendly Gradio front end, you can run it with AI Workbench without any complex setup.
 
 > **Note**
->This app runs in [NVIDIA AI Workbench](https://docs.nvidia.com/ai-workbench/user-guide/latest/overview/introduction.html). Workbench is a lightweight developer platform that you can run on your own systems for free. It's an easy way to get up and running with complex AI applications and workloads in a short amount of time. 
+>This app runs in [NVIDIA AI Workbench](https://docs.nvidia.com/ai-workbench/user-guide/latest/overview/introduction.html). It's a free, lightweight developer platform that you can run on your own systems. It's an easy way to get up and running with complex AI applications and workloads in a short amount of time. 
 
 > The only requirement is curiosity. You don't need to be a developer or an expert.
 
@@ -35,13 +35,16 @@ The diagram **below** shows this agentic flow.
 
 #### Modifying the Application
 
-* You can change the prompts for the different components, e.g. the hallucination grader, directly within the front end.
-* You can change the webpages and pdfs you want to use for the context in the RAG.
-* You can select different endpoints for the inference components. 
-  * Cloud endpoints using endpoints from [build.nvidia.com](https://build.nvidia.com/explore/discover)
+* Directly within the app you can:
+   * Change the prompts for the different components, e.g. the hallucination grader, directly within the front end.
+   * Change the webpages and pdfs you want to use for the context in the RAG.
+   * Select different endpoints rom [build.nvidia.com](https://build.nvidia.com/explore/discover) for the inference components.
+* You can also use self-hosted endpoints that you setup yourself.
   * *Advanced: Self-hosted endpoints using [NVIDIA Inference Microservices (NIMs)](https://catalog.ngc.nvidia.com/orgs/nim/teams/meta/containers/llama3-8b-instruct/tags)*
   * *Advanced: Self-hosted endpoints with Ollama.*
-* You can modify the application code to add new models, add your own endpoints, change the Gradio interface, or even change the logic.
+* You can also modify the application code to:
+   * Add new endpoints and endpoint providers
+   * Change the Gradio interface or the application.
 
 ## Get Started
 

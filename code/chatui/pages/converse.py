@@ -24,6 +24,7 @@ import os
 import subprocess
 import time
 import sys
+import json
 
 INTERNAL_API = os.getenv('INTERNAL_API', '')
 
@@ -41,7 +42,7 @@ if INTERNAL_API != '':
 
 from chatui import assets, chat_client
 from chatui.prompts import prompts_llama3, prompts_mistral
-from chatui.utils import compile, database, logger
+from chatui.utils import compile, database, logger, gpu_compatibility
 
 from langgraph.graph import END, StateGraph
 
@@ -178,19 +179,48 @@ def build_page(client: chat_client.ChatClient) -> gr.Blocks:
                                     
                                 with gr.TabItem("NIM Endpoints", id=1) as router_nim:
                                     with gr.Row():
-                                        nim_router_ip = gr.Textbox(placeholder = "10.123.45.678", 
-                                                   label = "Microservice Host", 
-                                                   info = "IP Address running the microservice", 
-                                                   elem_id="rag-inputs", scale=2)
-                                        nim_router_port = gr.Textbox(placeholder = "8000", 
-                                                   label = "Port", 
-                                                   info = "Optional, (default: 8000)", 
-                                                   elem_id="rag-inputs", scale=1)
+                                        nim_router_gpu_type = gr.Dropdown(
+                                            choices=gpu_compatibility.get_gpu_types(),
+                                            label="GPU Type",
+                                            info="Select your GPU type",
+                                            elem_id="rag-inputs",
+                                            scale=2
+                                        )
+                                        nim_router_gpu_count = gr.Dropdown(
+                                            choices=[],
+                                            label="Number of GPUs",
+                                            info="Select number of GPUs",
+                                            elem_id="rag-inputs",
+                                            scale=1,
+                                            interactive=False
+                                        )
                                     
-                                    nim_router_id = gr.Textbox(placeholder = "meta/llama3-8b-instruct", 
-                                               label = "Model running in microservice.", 
-                                               info = "If none specified, defaults to: meta/llama3-8b-instruct", 
-                                               elem_id="rag-inputs")
+                                    with gr.Row():
+                                        nim_router_ip = gr.Textbox(
+                                            placeholder="10.123.45.678",
+                                            label="Microservice Host",
+                                            info="IP Address running the microservice",
+                                            elem_id="rag-inputs",
+                                            scale=2
+                                        )
+                                        nim_router_port = gr.Textbox(
+                                            placeholder="8000",
+                                            label="Port",
+                                            info="Optional, (default: 8000)",
+                                            elem_id="rag-inputs",
+                                            scale=1
+                                        )
+                                    
+                                    nim_router_id = gr.Dropdown(
+                                        choices=[],
+                                        label="Model running in microservice",
+                                        info="Select a compatible model for your GPU configuration",
+                                        elem_id="rag-inputs",
+                                        interactive=False
+                                    )
+
+                                    # Add warning box for compatibility issues
+                                    nim_router_warning = gr.Markdown(visible=False, value="")
 
                                 with gr.TabItem("Hide", id=2) as router_hide:
                                     gr.Markdown("")
@@ -216,19 +246,48 @@ def build_page(client: chat_client.ChatClient) -> gr.Blocks:
                                                                          interactive=True)
                                 with gr.TabItem("NIM Endpoints", id=1) as retrieval_nim:
                                     with gr.Row():
-                                        nim_retrieval_ip = gr.Textbox(placeholder = "10.123.45.678", 
-                                                   label = "Microservice Host", 
-                                                   info = "IP Address running the microservice", 
-                                                   elem_id="rag-inputs", scale=2)
-                                        nim_retrieval_port = gr.Textbox(placeholder = "8000", 
-                                                   label = "Port", 
-                                                   info = "Optional, (default: 8000)", 
-                                                   elem_id="rag-inputs", scale=1)
+                                        nim_retrieval_gpu_type = gr.Dropdown(
+                                            choices=gpu_compatibility.get_gpu_types(),
+                                            label="GPU Type",
+                                            info="Select your GPU type",
+                                            elem_id="rag-inputs",
+                                            scale=2
+                                        )
+                                        nim_retrieval_gpu_count = gr.Dropdown(
+                                            choices=[],
+                                            label="Number of GPUs",
+                                            info="Select number of GPUs",
+                                            elem_id="rag-inputs",
+                                            scale=1,
+                                            interactive=False
+                                        )
                                     
-                                    nim_retrieval_id = gr.Textbox(placeholder = "meta/llama3-8b-instruct", 
-                                               label = "Model running in microservice.", 
-                                               info = "If none specified, defaults to: meta/llama3-8b-instruct", 
-                                               elem_id="rag-inputs")
+                                    with gr.Row():
+                                        nim_retrieval_ip = gr.Textbox(
+                                            placeholder="10.123.45.678",
+                                            label="Microservice Host",
+                                            info="IP Address running the microservice",
+                                            elem_id="rag-inputs",
+                                            scale=2
+                                        )
+                                        nim_retrieval_port = gr.Textbox(
+                                            placeholder="8000",
+                                            label="Port",
+                                            info="Optional, (default: 8000)",
+                                            elem_id="rag-inputs",
+                                            scale=1
+                                        )
+                                    
+                                    nim_retrieval_id = gr.Dropdown(
+                                        choices=[],
+                                        label="Model running in microservice",
+                                        info="Select a compatible model for your GPU configuration",
+                                        elem_id="rag-inputs",
+                                        interactive=False
+                                    )
+
+                                    # Add warning box for compatibility issues
+                                    nim_retrieval_warning = gr.Markdown(visible=False, value="")
 
                                 with gr.TabItem("Hide", id=2) as retrieval_hide:
                                     gr.Markdown("")
@@ -254,19 +313,48 @@ def build_page(client: chat_client.ChatClient) -> gr.Blocks:
                                                                   interactive=True)
                                 with gr.TabItem("NIM Endpoints", id=1) as generator_nim:
                                     with gr.Row():
-                                        nim_generator_ip = gr.Textbox(placeholder = "10.123.45.678", 
-                                                   label = "Microservice Host", 
-                                                   info = "IP Address running the microservice", 
-                                                   elem_id="rag-inputs", scale=2)
-                                        nim_generator_port = gr.Textbox(placeholder = "8000", 
-                                                   label = "Port", 
-                                                   info = "Optional, (default: 8000)", 
-                                                   elem_id="rag-inputs", scale=1)
+                                        nim_generator_gpu_type = gr.Dropdown(
+                                            choices=gpu_compatibility.get_gpu_types(),
+                                            label="GPU Type",
+                                            info="Select your GPU type",
+                                            elem_id="rag-inputs",
+                                            scale=2
+                                        )
+                                        nim_generator_gpu_count = gr.Dropdown(
+                                            choices=[],
+                                            label="Number of GPUs",
+                                            info="Select number of GPUs",
+                                            elem_id="rag-inputs",
+                                            scale=1,
+                                            interactive=False
+                                        )
                                     
-                                    nim_generator_id = gr.Textbox(placeholder = "meta/llama3-8b-instruct", 
-                                               label = "Model running in microservice.", 
-                                               info = "If none specified, defaults to: meta/llama3-8b-instruct", 
-                                               elem_id="rag-inputs")
+                                    with gr.Row():
+                                        nim_generator_ip = gr.Textbox(
+                                            placeholder="10.123.45.678",
+                                            label="Microservice Host",
+                                            info="IP Address running the microservice",
+                                            elem_id="rag-inputs",
+                                            scale=2
+                                        )
+                                        nim_generator_port = gr.Textbox(
+                                            placeholder="8000",
+                                            label="Port",
+                                            info="Optional, (default: 8000)",
+                                            elem_id="rag-inputs",
+                                            scale=1
+                                        )
+                                    
+                                    nim_generator_id = gr.Dropdown(
+                                        choices=[],
+                                        label="Model running in microservice",
+                                        info="Select a compatible model for your GPU configuration",
+                                        elem_id="rag-inputs",
+                                        interactive=False
+                                    )
+
+                                    # Add warning box for compatibility issues
+                                    nim_generator_warning = gr.Markdown(visible=False, value="")
 
                                 with gr.TabItem("Hide", id=2) as generator_hide:
                                     gr.Markdown("")
@@ -292,19 +380,48 @@ def build_page(client: chat_client.ChatClient) -> gr.Blocks:
                                                                              interactive=True)
                                 with gr.TabItem("NIM Endpoints", id=1) as hallucination_nim:
                                     with gr.Row():
-                                        nim_hallucination_ip = gr.Textbox(placeholder = "10.123.45.678", 
-                                                   label = "Microservice Host", 
-                                                   info = "IP Address running the microservice", 
-                                                   elem_id="rag-inputs", scale=2)
-                                        nim_hallucination_port = gr.Textbox(placeholder = "8000", 
-                                                   label = "Port", 
-                                                   info = "Optional, (default: 8000)", 
-                                                   elem_id="rag-inputs", scale=1)
+                                        nim_hallucination_gpu_type = gr.Dropdown(
+                                            choices=gpu_compatibility.get_gpu_types(),
+                                            label="GPU Type",
+                                            info="Select your GPU type",
+                                            elem_id="rag-inputs",
+                                            scale=2
+                                        )
+                                        nim_hallucination_gpu_count = gr.Dropdown(
+                                            choices=[],
+                                            label="Number of GPUs",
+                                            info="Select number of GPUs",
+                                            elem_id="rag-inputs",
+                                            scale=1,
+                                            interactive=False
+                                        )
                                     
-                                    nim_hallucination_id = gr.Textbox(placeholder = "meta/llama3-8b-instruct", 
-                                               label = "Model running in microservice.", 
-                                               info = "If none specified, defaults to: meta/llama3-8b-instruct", 
-                                               elem_id="rag-inputs")
+                                    with gr.Row():
+                                        nim_hallucination_ip = gr.Textbox(
+                                            placeholder="10.123.45.678",
+                                            label="Microservice Host",
+                                            info="IP Address running the microservice",
+                                            elem_id="rag-inputs",
+                                            scale=2
+                                        )
+                                        nim_hallucination_port = gr.Textbox(
+                                            placeholder="8000",
+                                            label="Port",
+                                            info="Optional, (default: 8000)",
+                                            elem_id="rag-inputs",
+                                            scale=1
+                                        )
+                                    
+                                    nim_hallucination_id = gr.Dropdown(
+                                        choices=[],
+                                        label="Model running in microservice",
+                                        info="Select a compatible model for your GPU configuration",
+                                        elem_id="rag-inputs",
+                                        interactive=False
+                                    )
+
+                                    # Add warning box for compatibility issues
+                                    nim_hallucination_warning = gr.Markdown(visible=False, value="")
 
                                 with gr.TabItem("Hide", id=2) as hallucination_hide:
                                     gr.Markdown("")
@@ -330,19 +447,48 @@ def build_page(client: chat_client.ChatClient) -> gr.Blocks:
                                                                       interactive=True)
                                 with gr.TabItem("NIM Endpoints", id=1) as answer_nim:
                                     with gr.Row():
-                                        nim_answer_ip = gr.Textbox(placeholder = "10.123.45.678", 
-                                                   label = "Microservice Host", 
-                                                   info = "IP Address running the microservice", 
-                                                   elem_id="rag-inputs", scale=2)
-                                        nim_answer_port = gr.Textbox(placeholder = "8000", 
-                                                   label = "Port", 
-                                                   info = "Optional, (default: 8000)", 
-                                                   elem_id="rag-inputs", scale=1)
+                                        nim_answer_gpu_type = gr.Dropdown(
+                                            choices=gpu_compatibility.get_gpu_types(),
+                                            label="GPU Type",
+                                            info="Select your GPU type",
+                                            elem_id="rag-inputs",
+                                            scale=2
+                                        )
+                                        nim_answer_gpu_count = gr.Dropdown(
+                                            choices=[],
+                                            label="Number of GPUs",
+                                            info="Select number of GPUs",
+                                            elem_id="rag-inputs",
+                                            scale=1,
+                                            interactive=False
+                                        )
                                     
-                                    nim_answer_id = gr.Textbox(placeholder = "meta/llama3-8b-instruct", 
-                                               label = "Model running in microservice.", 
-                                               info = "If none specified, defaults to: meta/llama3-8b-instruct", 
-                                               elem_id="rag-inputs")
+                                    with gr.Row():
+                                        nim_answer_ip = gr.Textbox(
+                                            placeholder="10.123.45.678",
+                                            label="Microservice Host",
+                                            info="IP Address running the microservice",
+                                            elem_id="rag-inputs",
+                                            scale=2
+                                        )
+                                        nim_answer_port = gr.Textbox(
+                                            placeholder="8000",
+                                            label="Port",
+                                            info="Optional, (default: 8000)",
+                                            elem_id="rag-inputs",
+                                            scale=1
+                                        )
+                                    
+                                    nim_answer_id = gr.Dropdown(
+                                        choices=[],
+                                        label="Model running in microservice",
+                                        info="Select a compatible model for your GPU configuration",
+                                        elem_id="rag-inputs",
+                                        interactive=False
+                                    )
+
+                                    # Add warning box for compatibility issues
+                                    nim_answer_warning = gr.Markdown(visible=False, value="")
 
                                 with gr.TabItem("Hide", id=2) as answer_hide:
                                     gr.Markdown("")
@@ -443,91 +589,204 @@ def build_page(client: chat_client.ChatClient) -> gr.Blocks:
 
         """ These helper functions set state and prompts when either the NIM or API Endpoint tabs are selected. """
         
-        def _toggle_router_endpoints(api_model: str, nim_model: str, evt: gr.EventData):
-            if (evt._data['value'] == "NIM Endpoints") and ("llama3" in nim_model or len(nim_model) == 0):
-                value = prompts_llama3.router_prompt
-            elif (evt._data['value'] == "NIM Endpoints") and ("mistral" in nim_model or "mixtral" in nim_model):
-                value = prompts_mistral.router_prompt
-            elif (evt._data['value'] == "API Endpoints") and ("llama3" in api_model):
-                value = prompts_llama3.router_prompt
-            elif (evt._data['value'] == "API Endpoints") and ("mistral" in api_model or "mixtral" in api_model):
-                value = prompts_mistral.router_prompt
-            return True if evt._data['value'] == "NIM Endpoints" else False, gr.update(value=value) if value is not None else gr.update(visible=True)
-
-        def _toggle_retrieval_endpoints(api_model: str, nim_model: str, evt: gr.EventData):
-            if (evt._data['value'] == "NIM Endpoints") and ("llama3" in nim_model or len(nim_model) == 0):
-                value = prompts_llama3.retrieval_prompt
-            elif (evt._data['value'] == "NIM Endpoints") and ("mistral" in nim_model or "mixtral" in nim_model):
-                value = prompts_mistral.retrieval_prompt
-            elif (evt._data['value'] == "API Endpoints") and ("llama3" in api_model):
-                value = prompts_llama3.retrieval_prompt
-            elif (evt._data['value'] == "API Endpoints") and ("mistral" in api_model or "mixtral" in api_model):
-                value = prompts_mistral.retrieval_prompt
-            return True if evt._data['value'] == "NIM Endpoints" else False, gr.update(value=value) if value is not None else gr.update(visible=True)
-
-        def _toggle_generator_endpoints(api_model: str, nim_model: str, evt: gr.EventData):
-            if (evt._data['value'] == "NIM Endpoints") and ("llama3" in nim_model or len(nim_model) == 0):
-                value = prompts_llama3.generator_prompt
-            elif (evt._data['value'] == "NIM Endpoints") and ("mistral" in nim_model or "mixtral" in nim_model):
-                value = prompts_mistral.generator_prompt
-            elif (evt._data['value'] == "API Endpoints") and ("llama3" in api_model):
-                value = prompts_llama3.generator_prompt
-            elif (evt._data['value'] == "API Endpoints") and ("mistral" in api_model or "mixtral" in api_model):
-                value = prompts_mistral.generator_prompt
-            return True if evt._data['value'] == "NIM Endpoints" else False, gr.update(value=value) if value is not None else gr.update(visible=True)
-
-        def _toggle_hallucination_endpoints(api_model: str, nim_model: str, evt: gr.EventData):
-            if (evt._data['value'] == "NIM Endpoints") and ("llama3" in nim_model or len(nim_model) == 0):
-                value = prompts_llama3.hallucination_prompt
-            elif (evt._data['value'] == "NIM Endpoints") and ("mistral" in nim_model or "mixtral" in nim_model):
-                value = prompts_mistral.hallucination_prompt
-            elif (evt._data['value'] == "API Endpoints") and ("llama3" in api_model):
-                value = prompts_llama3.hallucination_prompt
-            elif (evt._data['value'] == "API Endpoints") and ("mistral" in api_model or "mixtral" in api_model):
-                value = prompts_mistral.hallucination_prompt
-            return True if evt._data['value'] == "NIM Endpoints" else False, gr.update(value=value) if value is not None else gr.update(visible=True)
-
-        def _toggle_answer_endpoints(api_model: str, nim_model: str, evt: gr.EventData):
-            if (evt._data['value'] == "NIM Endpoints") and ("llama3" in nim_model or len(nim_model) == 0):
-                value = prompts_llama3.answer_prompt
-            elif (evt._data['value'] == "NIM Endpoints") and ("mistral" in nim_model or "mixtral" in nim_model):
-                value = prompts_mistral.answer_prompt
-            elif (evt._data['value'] == "API Endpoints") and ("llama3" in api_model):
-                value = prompts_llama3.answer_prompt
-            elif (evt._data['value'] == "API Endpoints") and ("mistral" in api_model or "mixtral" in api_model):
-                value = prompts_mistral.answer_prompt
-            return True if evt._data['value'] == "NIM Endpoints" else False, gr.update(value=value) if value is not None else gr.update(visible=True)
-
-        router_api.select(_toggle_router_endpoints, [model_router, nim_router_id], [router_use_nim, prompt_router])
-        router_nim.select(_toggle_router_endpoints, [model_router, nim_router_id], [router_use_nim, prompt_router])
-        retrieval_api.select(_toggle_retrieval_endpoints, [model_retrieval, nim_retrieval_id], [retrieval_use_nim, prompt_retrieval])
-        retrieval_nim.select(_toggle_retrieval_endpoints, [model_retrieval, nim_retrieval_id], [retrieval_use_nim, prompt_retrieval])
-        generator_api.select(_toggle_generator_endpoints, [model_generator, nim_generator_id], [generator_use_nim, prompt_generator])
-        generator_nim.select(_toggle_generator_endpoints, [model_generator, nim_generator_id], [generator_use_nim, prompt_generator])
-        hallucination_api.select(_toggle_hallucination_endpoints, [model_hallucination, nim_hallucination_id], [hallucination_use_nim, prompt_hallucination])
-        hallucination_nim.select(_toggle_hallucination_endpoints, [model_hallucination, nim_hallucination_id], [hallucination_use_nim, prompt_hallucination])
-        answer_api.select(_toggle_answer_endpoints, [model_answer, nim_answer_id], [answer_use_nim, prompt_answer])
-        answer_nim.select(_toggle_answer_endpoints, [model_answer, nim_answer_id], [answer_use_nim, prompt_answer])
-        
-        """ These helper functions hide and show the right-hand settings panel when toggled. """
-        
-        def _toggle_hide_all_settings():
+        def _update_gpu_counts(component: str, gpu_type: str):
+            """Update the available GPU counts for selected GPU type."""
+            counts = gpu_compatibility.get_supported_gpu_counts(gpu_type)
+            components = {
+                "router": [nim_router_gpu_count, nim_router_id, nim_router_warning],
+                "retrieval": [nim_retrieval_gpu_count, nim_retrieval_id, nim_retrieval_warning],
+                "generator": [nim_generator_gpu_count, nim_generator_id, nim_generator_warning],
+                "hallucination": [nim_hallucination_gpu_count, nim_hallucination_id, nim_hallucination_warning],
+                "answer": [nim_answer_gpu_count, nim_answer_id, nim_answer_warning]
+            }
             return {
-                settings_column: gr.update(visible=False),
-                hidden_settings_column: gr.update(visible=True),
+                components[component][0]: gr.update(choices=counts, value=None, interactive=True),
+                components[component][1]: gr.update(choices=[], value=None, interactive=False),
+                components[component][2]: gr.update(visible=False, value="")
+            }
+        
+        def _update_compatible_models(component: str, gpu_type: str, num_gpus: str):
+            """Update the compatible models list based on GPU configuration."""
+            if not gpu_type or not num_gpus:
+                components = {
+                    "router": [nim_router_id, nim_router_warning],
+                    "retrieval": [nim_retrieval_id, nim_retrieval_warning],
+                    "generator": [nim_generator_id, nim_generator_warning],
+                    "hallucination": [nim_hallucination_id, nim_hallucination_warning],
+                    "answer": [nim_answer_id, nim_answer_warning]
+                }
+                return {
+                    components[component][0]: gr.update(choices=[], value=None, interactive=False),
+                    components[component][1]: gr.update(visible=False, value="")
+                }
+            
+            compatibility = gpu_compatibility.get_compatible_models(gpu_type, num_gpus)
+            
+            if compatibility["warning_message"]:
+                components = {
+                    "router": [nim_router_id, nim_router_warning],
+                    "retrieval": [nim_retrieval_id, nim_retrieval_warning],
+                    "generator": [nim_generator_id, nim_generator_warning],
+                    "hallucination": [nim_hallucination_id, nim_hallucination_warning],
+                    "answer": [nim_answer_id, nim_answer_warning]
+                }
+                return {
+                    components[component][0]: gr.update(choices=[], value=None, interactive=False),
+                    components[component][1]: gr.update(visible=True, value=f"⚠️ {compatibility['warning_message']}")
+                }
+            
+            components = {
+                "router": [nim_router_id, nim_router_warning],
+                "retrieval": [nim_retrieval_id, nim_retrieval_warning],
+                "generator": [nim_generator_id, nim_generator_warning],
+                "hallucination": [nim_hallucination_id, nim_hallucination_warning],
+                "answer": [nim_answer_id, nim_answer_warning]
+            }
+            return {
+                components[component][0]: gr.update(
+                    choices=compatibility["compatible_models"],
+                    value=compatibility["compatible_models"][0] if compatibility["compatible_models"] else None,
+                    interactive=True
+                ),
+                components[component][1]: gr.update(visible=False, value="")
             }
 
-        def _toggle_show_all_settings():
+        # Add the event handlers for all components
+        nim_router_gpu_type.change(lambda x: _update_gpu_counts("router", x), nim_router_gpu_type, 
+                                 [nim_router_gpu_count, nim_router_id, nim_router_warning])
+        nim_router_gpu_count.change(lambda x, y: _update_compatible_models("router", x, y), 
+                                  [nim_router_gpu_type, nim_router_gpu_count], 
+                                  [nim_router_id, nim_router_warning])
+
+        nim_retrieval_gpu_type.change(lambda x: _update_gpu_counts("retrieval", x), nim_retrieval_gpu_type, 
+                                    [nim_retrieval_gpu_count, nim_retrieval_id, nim_retrieval_warning])
+        nim_retrieval_gpu_count.change(lambda x, y: _update_compatible_models("retrieval", x, y), 
+                                     [nim_retrieval_gpu_type, nim_retrieval_gpu_count], 
+                                     [nim_retrieval_id, nim_retrieval_warning])
+
+        nim_generator_gpu_type.change(lambda x: _update_gpu_counts("generator", x), nim_generator_gpu_type, 
+                                    [nim_generator_gpu_count, nim_generator_id, nim_generator_warning])
+        nim_generator_gpu_count.change(lambda x, y: _update_compatible_models("generator", x, y), 
+                                     [nim_generator_gpu_type, nim_generator_gpu_count], 
+                                     [nim_generator_id, nim_generator_warning])
+
+        nim_hallucination_gpu_type.change(lambda x: _update_gpu_counts("hallucination", x), nim_hallucination_gpu_type, 
+                                        [nim_hallucination_gpu_count, nim_hallucination_id, nim_hallucination_warning])
+        nim_hallucination_gpu_count.change(lambda x, y: _update_compatible_models("hallucination", x, y), 
+                                         [nim_hallucination_gpu_type, nim_hallucination_gpu_count], 
+                                         [nim_hallucination_id, nim_hallucination_warning])
+
+        nim_answer_gpu_type.change(lambda x: _update_gpu_counts("answer", x), nim_answer_gpu_type, 
+                                 [nim_answer_gpu_count, nim_answer_id, nim_answer_warning])
+        nim_answer_gpu_count.change(lambda x, y: _update_compatible_models("answer", x, y), 
+                                  [nim_answer_gpu_type, nim_answer_gpu_count], 
+                                  [nim_answer_id, nim_answer_warning])
+
+        """ These helper functions track the API Endpoint selected and regenerates the prompt accordingly. """
+        
+        def _toggle_model_router(selected_model: str):
+            match selected_model:
+                case str() if selected_model == LLAMA:
+                    return gr.update(value=prompts_llama3.router_prompt)
+                case str() if selected_model == MISTRAL:
+                    return gr.update(value=prompts_mistral.router_prompt)
+                case _:
+                    return gr.update(value=prompts_llama3.router_prompt)
+        
+        def _toggle_model_retrieval(selected_model: str):
+            match selected_model:
+                case str() if selected_model == LLAMA:
+                    return gr.update(value=prompts_llama3.retrieval_prompt)
+                case str() if selected_model == MISTRAL:
+                    return gr.update(value=prompts_mistral.retrieval_prompt)
+                case _:
+                    return gr.update(value=prompts_llama3.retrieval_prompt)
+
+        def _toggle_model_generator(selected_model: str):
+            match selected_model:
+                case str() if selected_model == LLAMA:
+                    return gr.update(value=prompts_llama3.generator_prompt)
+                case str() if selected_model == MISTRAL:
+                    return gr.update(value=prompts_mistral.generator_prompt)
+                case _:
+                    return gr.update(value=prompts_llama3.generator_prompt)
+            
+        def _toggle_model_hallucination(selected_model: str):
+            match selected_model:
+                case str() if selected_model == LLAMA:
+                    return gr.update(value=prompts_llama3.hallucination_prompt)
+                case str() if selected_model == MISTRAL:
+                    return gr.update(value=prompts_mistral.hallucination_prompt)
+                case _:
+                    return gr.update(value=prompts_llama3.hallucination_prompt)
+            
+        def _toggle_model_answer(selected_model: str):
+            match selected_model:
+                case str() if selected_model == LLAMA:
+                    return gr.update(value=prompts_llama3.answer_prompt)
+                case str() if selected_model == MISTRAL:
+                    return gr.update(value=prompts_mistral.answer_prompt)
+                case _:
+                    return gr.update(value=prompts_llama3.answer_prompt)
+            
+        model_router.change(_toggle_model_router, [model_router], [prompt_router])
+        model_retrieval.change(_toggle_model_retrieval, [model_retrieval], [prompt_retrieval])
+        model_generator.change(_toggle_model_generator, [model_generator], [prompt_generator])
+        model_hallucination.change(_toggle_model_hallucination, [model_hallucination], [prompt_hallucination])
+        model_answer.change(_toggle_model_answer, [model_answer], [prompt_answer])
+        
+        """ These helper functions upload and clear the documents and webpages to/from the ChromaDB. """
+
+        def _upload_documents_pdf(files, progress=gr.Progress()):
+            progress(0.25, desc="Initializing Task")
+            time.sleep(0.75)
+            progress(0.5, desc="Uploading Docs")
+            database.upload_pdf(files)
+            progress(0.75, desc="Cleaning Up")
+            time.sleep(0.75)
             return {
-                settings_column: gr.update(visible=True),
-                settings_tabs: gr.update(selected=0),
-                hidden_settings_column: gr.update(visible=False),
+                url_docs_clear: gr.update(value="Clear Docs", variant="secondary", interactive=True),
+                pdf_docs_clear: gr.update(value="Clear Docs", variant="secondary", interactive=True),
+                agentic_flow: gr.update(visible=True),
             }
 
-        hide_all_settings.select(_toggle_hide_all_settings, None, [settings_column, hidden_settings_column])
-        show_settings.click(_toggle_show_all_settings, None, [settings_column, settings_tabs, hidden_settings_column])
-        
-        """ This helper function ensures the model settings are reset when a user re-navigates to the tab. """
+        def _upload_documents(docs: str, progress=gr.Progress()):
+            progress(0.2, desc="Initializing Task")
+            time.sleep(0.75)
+            progress(0.4, desc="Processing URL List")
+            docs_list = docs.splitlines()
+            progress(0.6, desc="Uploading Docs")
+            database.upload(docs_list)
+            progress(0.8, desc="Cleaning Up")
+            time.sleep(0.75)
+            return {
+                url_docs_upload: gr.update(value="Docs Uploaded", variant="primary", interactive=False),
+                url_docs_clear: gr.update(value="Clear Docs", variant="secondary", interactive=True),
+                pdf_docs_clear: gr.update(value="Clear Docs", variant="secondary", interactive=True),
+                agentic_flow: gr.update(visible=True),
+            }
+
+        def _clear_documents(progress=gr.Progress()):
+            progress(0.25, desc="Initializing Task")
+            time.sleep(0.75)
+            progress(0.5, desc="Clearing Database")
+            database.clear()
+            progress(0.75, desc="Cleaning Up")
+            time.sleep(0.75)
+            return {
+                url_docs_upload: gr.update(value="Upload Docs", variant="secondary", interactive=True),
+                url_docs_clear: gr.update(value="Docs Cleared", variant="primary", interactive=False),
+                pdf_docs_upload: gr.update(value=None),
+                pdf_docs_clear: gr.update(value="Docs Cleared", variant="primary", interactive=False),
+                agentic_flow: gr.update(visible=True),
+            }
+
+        url_docs_upload.click(_upload_documents, [url_docs], [url_docs_upload, url_docs_clear, pdf_docs_clear, agentic_flow])
+        url_docs_clear.click(_clear_documents, [], [url_docs_upload, url_docs_clear, pdf_docs_upload, pdf_docs_clear, agentic_flow])
+        pdf_docs_upload.upload(_upload_documents_pdf, [pdf_docs_upload], [url_docs_clear, pdf_docs_clear, agentic_flow])
+        pdf_docs_clear.click(_clear_documents, [], [url_docs_upload, url_docs_clear, pdf_docs_upload, pdf_docs_clear, agentic_flow])
+
+        """ These helper functions set state and prompts when either the NIM or API Endpoint tabs are selected. """
         
         def _toggle_model_tab():
             return {
@@ -639,110 +898,6 @@ def build_page(client: chat_client.ChatClient) -> gr.Blocks:
                                                                      generator_btn,
                                                                      hallucination_btn,
                                                                      answer_btn])
-
-        """ These helper functions track the API Endpoint selected and regenerates the prompt accordingly. """
-        
-        def _toggle_model_router(selected_model: str):
-            match selected_model:
-                case str() if selected_model == LLAMA:
-                    return gr.update(value=prompts_llama3.router_prompt)
-                case str() if selected_model == MISTRAL:
-                    return gr.update(value=prompts_mistral.router_prompt)
-                case _:
-                    return gr.update(value=prompts_llama3.router_prompt)
-        
-        def _toggle_model_retrieval(selected_model: str):
-            match selected_model:
-                case str() if selected_model == LLAMA:
-                    return gr.update(value=prompts_llama3.retrieval_prompt)
-                case str() if selected_model == MISTRAL:
-                    return gr.update(value=prompts_mistral.retrieval_prompt)
-                case _:
-                    return gr.update(value=prompts_llama3.retrieval_prompt)
-
-        def _toggle_model_generator(selected_model: str):
-            match selected_model:
-                case str() if selected_model == LLAMA:
-                    return gr.update(value=prompts_llama3.generator_prompt)
-                case str() if selected_model == MISTRAL:
-                    return gr.update(value=prompts_mistral.generator_prompt)
-                case _:
-                    return gr.update(value=prompts_llama3.generator_prompt)
-            
-        def _toggle_model_hallucination(selected_model: str):
-            match selected_model:
-                case str() if selected_model == LLAMA:
-                    return gr.update(value=prompts_llama3.hallucination_prompt)
-                case str() if selected_model == MISTRAL:
-                    return gr.update(value=prompts_mistral.hallucination_prompt)
-                case _:
-                    return gr.update(value=prompts_llama3.hallucination_prompt)
-            
-        def _toggle_model_answer(selected_model: str):
-            match selected_model:
-                case str() if selected_model == LLAMA:
-                    return gr.update(value=prompts_llama3.answer_prompt)
-                case str() if selected_model == MISTRAL:
-                    return gr.update(value=prompts_mistral.answer_prompt)
-                case _:
-                    return gr.update(value=prompts_llama3.answer_prompt)
-            
-        model_router.change(_toggle_model_router, [model_router], [prompt_router])
-        model_retrieval.change(_toggle_model_retrieval, [model_retrieval], [prompt_retrieval])
-        model_generator.change(_toggle_model_generator, [model_generator], [prompt_generator])
-        model_hallucination.change(_toggle_model_hallucination, [model_hallucination], [prompt_hallucination])
-        model_answer.change(_toggle_model_answer, [model_answer], [prompt_answer])
-        
-        """ These helper functions upload and clear the documents and webpages to/from the ChromaDB. """
-
-        def _upload_documents_pdf(files, progress=gr.Progress()):
-            progress(0.25, desc="Initializing Task")
-            time.sleep(0.75)
-            progress(0.5, desc="Uploading Docs")
-            database.upload_pdf(files)
-            progress(0.75, desc="Cleaning Up")
-            time.sleep(0.75)
-            return {
-                url_docs_clear: gr.update(value="Clear Docs", variant="secondary", interactive=True),
-                pdf_docs_clear: gr.update(value="Clear Docs", variant="secondary", interactive=True),
-                agentic_flow: gr.update(visible=True),
-            }
-
-        def _upload_documents(docs: str, progress=gr.Progress()):
-            progress(0.2, desc="Initializing Task")
-            time.sleep(0.75)
-            progress(0.4, desc="Processing URL List")
-            docs_list = docs.splitlines()
-            progress(0.6, desc="Uploading Docs")
-            database.upload(docs_list)
-            progress(0.8, desc="Cleaning Up")
-            time.sleep(0.75)
-            return {
-                url_docs_upload: gr.update(value="Docs Uploaded", variant="primary", interactive=False),
-                url_docs_clear: gr.update(value="Clear Docs", variant="secondary", interactive=True),
-                pdf_docs_clear: gr.update(value="Clear Docs", variant="secondary", interactive=True),
-                agentic_flow: gr.update(visible=True),
-            }
-
-        def _clear_documents(progress=gr.Progress()):
-            progress(0.25, desc="Initializing Task")
-            time.sleep(0.75)
-            progress(0.5, desc="Clearing Database")
-            database.clear()
-            progress(0.75, desc="Cleaning Up")
-            time.sleep(0.75)
-            return {
-                url_docs_upload: gr.update(value="Upload Docs", variant="secondary", interactive=True),
-                url_docs_clear: gr.update(value="Docs Cleared", variant="primary", interactive=False),
-                pdf_docs_upload: gr.update(value=None),
-                pdf_docs_clear: gr.update(value="Docs Cleared", variant="primary", interactive=False),
-                agentic_flow: gr.update(visible=True),
-            }
-
-        url_docs_upload.click(_upload_documents, [url_docs], [url_docs_upload, url_docs_clear, pdf_docs_clear, agentic_flow])
-        url_docs_clear.click(_clear_documents, [], [url_docs_upload, url_docs_clear, pdf_docs_upload, pdf_docs_clear, agentic_flow])
-        pdf_docs_upload.upload(_upload_documents_pdf, [pdf_docs_upload], [url_docs_clear, pdf_docs_clear, agentic_flow])
-        pdf_docs_clear.click(_clear_documents, [], [url_docs_upload, url_docs_clear, pdf_docs_upload, pdf_docs_clear, agentic_flow])
 
         """ This helper function builds out the submission function call when a user submits a query. """
         
@@ -874,3 +1029,13 @@ def _stream_predict(
             yield "", chat_history + [[question, final_value["generation"]]], gr.update(show_label=False)
         except Exception as e: 
             yield "", chat_history + [[question, "*** ERR: Unable to process query. Check the Monitor tab for details. ***\n\nException: " + str(e)]], gr.update(show_label=False)
+
+_support_matrix_cache = None
+
+def load_gpu_support_matrix() -> Dict:
+    global _support_matrix_cache
+    if _support_matrix_cache is None:
+        matrix_path = os.path.join(os.path.dirname(__file__), '..', '..', 'nim_gpu_support_matrix.json')
+        with open(matrix_path, 'r') as f:
+            _support_matrix_cache = json.load(f)
+    return _support_matrix_cache

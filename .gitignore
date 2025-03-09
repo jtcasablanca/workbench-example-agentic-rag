@@ -56,3 +56,6 @@ cover/
 data/scratch/*
 !data/scratch/.gitkeep
 data/chroma.sqlite3
+
+data/*
+!data/.gitkeep

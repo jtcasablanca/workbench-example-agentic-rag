@@ -38,9 +38,9 @@ The diagram **below** shows this agentic flow.
    * Configure it to use self-hosted endpoints with [NVIDIA Inference Microservices (NIMs)](https://catalog.ngc.nvidia.com/orgs/nim/teams/meta/containers/llama3-8b-instruct/tags) or [Ollama](https://hub.docker.com/r/ollama/ollama).
 * You can also modify the application code to:
    * Add new endpoints and endpoint providers
-   * Change the Gradio interface or the application.
+   * Change the Gradio interface or the application structure and logic.
 
-> **Note** * Setting up self-hosted endpoints is relatively advanced because you will need to do it manually. 
+> **Note** Setting up self-hosted endpoints is relatively advanced because you will need to do it manually. 
 
 ## Get Started
 
@@ -84,9 +84,7 @@ The quickest path is with the pre-configured build.nvidia.com endpoints.
 
 #### Using a Self-Hosted Endpoint
 
-Each component in the pipeline can be configured to use a self-hosted endpoint. This lets you use your own models on your own GPUs, but requires you to setup endpoints and then connect them to the RAG application.
-
-This requires some manual steps, but if you are relatively familiar with containers and NVIDIA software, it shouldn't be too bad.
+Each pipeline component can be configured to use a self-hosted endpoint. You can run your own models on your own GPUs, but you'll need to set up the endpoints first. This works best if you know how to use containers and install NVIDIA software on Ubuntu.
 
 #### Prerequisites for Using a Self-Hosted Endpoint
 
@@ -97,6 +95,8 @@ This requires some manual steps, but if you are relatively familiar with contain
    * The latest NVIDIA drivers
    * The latest version of Docker
    * The latest version of the NVIDIA Container Toolkit
+
+3. 
 
 
 ## Self-Hosted Sizing Guide

@@ -1,24 +1,18 @@
 # Overview: An Easy Button for Agentic RAG
-This Retrieval Augmented Generation (RAG) application uses an agentic approach to combine web search, hallucination controls and accuracy checks with RAG. It has a friendly Gradio front end, you can run it with AI Workbench without any complex setup.
+This Retrieval Augmented Generation (RAG) application uses an agentic approach to combine web search, hallucination controls and accuracy checks with RAG. It's easy to modify because its a simple Gradio app.
 
 > **Note**
->This app runs in [NVIDIA AI Workbench](https://docs.nvidia.com/ai-workbench/user-guide/latest/overview/introduction.html). It's a free, lightweight developer platform that you can run on your own systems. It's an easy way to get up and running with complex AI applications and workloads in a short amount of time. 
+>This app runs in [NVIDIA AI Workbench](https://docs.nvidia.com/ai-workbench/user-guide/latest/overview/introduction.html). It's a free, lightweight developer platform that you can run on your own systems to get up and running with complex AI applications and workloads in a short amount of time. 
 
-> The only requirement is curiosity. You don't need to be a developer or an expert.
+> You may want to [**fork**](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo#forking-a-repository) this repository into your own account before proceeding. Otherwise you won't be able to fully retain any changes you make because this NVIDIA owned repository is **read-only**.
 
+<br>
 
 *Navigating the README:* [Application Overview](#the-agentic-rag-application) | [Get Started](#get-started) | [Deep Dive](#deep-dive) | [Self-Hosted Sizing Guide](#self-hosted-sizing-guide) | [License](#license)
 
 <!-- Links -->
 *Other Resources:* [:arrow_down: Download AI Workbench](https://www.nvidia.com/en-us/deep-learning-ai/solutions/data-science/workbench/) | [:book: User Guide](https://docs.nvidia.com/ai-workbench/) |[:open_file_folder: Other Projects](https://docs.nvidia.com/ai-workbench/user-guide/latest/quickstart/example-projects.html) | [:rotating_light: User Forum](https://forums.developer.nvidia.com/t/support-workbench-example-project-agentic-rag/303414)
 
-<br>
-
-
-> **Note:**
-> You may want to [**fork**](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo#forking-a-repository) this repository into your own account before proceeding. Otherwise you won't be able to fully retain any changes you make because this NVIDIA owned repository is **read-only**.
-
-<br>
 
 ## The Agentic RAG Application
 #### Using the Application

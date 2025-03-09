@@ -23,7 +23,9 @@ This Retrieval Augmented Generation (RAG) application uses an agentic approach t
 ## The Agentic RAG Application
 #### Using the Application
 1. You embed your documents (pdfs or webpages) to the vector database. 
-2. You configure the prompts for the different components, e.g. the router or retrieval grader.
+2. You configure each of the separate components for the pipeline. For each component you can:
+   * Select from a drop down of endpoints or use a self-hosted endpoint.
+   * Modify the prompt.
 3. You submit your query.
 4. An LLM evaluates your query for relevance to the index and then routes it to the DB or to search by [Tavily](https://tavily.com/).
 5. Answers are checked for hallucination and relevance. "Failing"" answers are run through the  process again.
@@ -39,16 +41,18 @@ The diagram **below** shows this agentic flow.
    * Change the prompts for the different components, e.g. the hallucination grader.
    * Change the webpages and pdfs you want to use for the context in the RAG.
    * Select different endpoints from [build.nvidia.com](https://build.nvidia.com/explore/discover) for the inference components.
-* You can also use self-hosted endpoints that you setup yourself.
-  * *Advanced: Self-hosted endpoint with [NVIDIA Inference Microservices (NIMs)](https://catalog.ngc.nvidia.com/orgs/nim/teams/meta/containers/llama3-8b-instruct/tags)*
-  * *Advanced: Self-hosted endpoint with [Ollama](https://hub.docker.com/r/ollama/ollama).*
+   * Configure it to use self-hosted endpoints with [NVIDIA Inference Microservices (NIMs)](https://catalog.ngc.nvidia.com/orgs/nim/teams/meta/containers/llama3-8b-instruct/tags) or [Ollama](https://hub.docker.com/r/ollama/ollama).
 * You can also modify the application code to:
    * Add new endpoints and endpoint providers
    * Change the Gradio interface or the application.
 
+> **Note** * Setting up self-hosted endpoints is relatively advanced because you will need to do it manually. 
+
 ## Get Started
 
-#### Prerequisites for Using build.nvidia.com Endpoints
+The quickest path is with the pre-configured build.nvidia.com endpoints. 
+
+#### Prerequisites for Using Pre-configured Endpoints
 
 1. Install [AI Workbench](https://docs.nvidia.com/ai-workbench/user-guide/latest/installation/overview.html).
 
@@ -81,8 +85,13 @@ The diagram **below** shows this agentic flow.
 6. Start chatting.
 
 ## Deep Dive
+
+> **Note** This assumes you've done the **Get Started** steps.
+
 #### Using a Self-Hosted Endpoint
-If you want to run your own models on your own GPUs, you will need to setup containerized endpoints and then connect them to the RAG application.
+
+Each component in the pipeline can be configured to use a self-hosted endpoint. This lets you use your own models on your own GPUs, but requires you to setup endpoints and then connect them to the RAG application.
+
 This requires some manual steps, but if you are relatively familiar with containers and NVIDIA software, it shouldn't be too bad.
 
 #### Prerequisites for Using a Self-Hosted Endpoint
@@ -94,8 +103,6 @@ This requires some manual steps, but if you are relatively familiar with contain
    * The latest NVIDIA drivers
    * The latest version of Docker
    * The latest version of the NVIDIA Container Toolkit
-
-
 
 
 ## Self-Hosted Sizing Guide

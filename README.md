@@ -85,36 +85,24 @@ The quickest path is with the pre-configured build.nvidia.com endpoints.
 
 > **Note** This assumes you've done the **Get Started** steps.
 
-#### Using a Self-Hosted Endpoint
+#### Using Self-Hosted Endpoints
 
-Each pipeline component can be configured to use a self-hosted endpoint. You can run your own models on your own GPUs, but you'll need to set up the endpoints first. This works best if you know how to use containers and install NVIDIA software on Ubuntu.
+You can configure any or all pipeline components (Router, Generator, Retrieval, Hallucination Check, Answer Check) to use self-hosted endpoints independently. This means you can mix and match between hosted and self-hosted components based on your needs. The application includes built-in GPU compatibility checking to help you select appropriate models for your hardware configuration.
 
-#### Prerequisites for Using a Self-Hosted Endpoint
+Prerequisites:
+* NVIDIA GPU(s) with appropriate VRAM
+* Ubuntu 22.04 or later with latest NVIDIA drivers
+* Docker and NVIDIA Container Toolkit
 
-1. You need a remote system with a sufficient GPU that you have SSH access to.
+To set up NIM endpoints for your components:
+1. Check the [NIM documentation](https://docs.nvidia.com/nim/large-language-models/latest/getting-started.html) for detailed setup instructions
+2. For each component you want to self-host:
+   * Select "NIM Endpoints" in the component's configuration
+   * Choose your GPU type and count - the UI will automatically show only compatible models
+   * Enter your endpoint details (host, port)
+3. Components not set to self-hosted will continue using their configured cloud endpoints
 
-2. The remote should have the following installed:
-   * Ubuntu 22.04 or higher
-   * The latest NVIDIA drivers
-   * The latest version of Docker
-   * The latest version of the NVIDIA Container Toolkit
-
-3. 
-
-
-## Self-Hosted Sizing Guide
-
-| GPU VRAM | Example Hardware | Compatible? |
-| -------- | ------- | ------- |
-| <16 GB | RTX 3080, RTX 3500 Ada | Y |
-| 16 GB | RTX 4080 16GB, RTX A4000 | Y |
-| 24 GB | RTX 3090/4090, RTX A5000/5500, A10/30 | Y |
-| 32 GB | RTX 5000 Ada  | Y |
-| 40 GB | A100-40GB | Y |
-| 48 GB | RTX 6000 Ada, L40/L40S, A40 | Y |
-| 80 GB | A100-80GB | Y |
-| >80 GB | 8x A100-80GB | Y |
-
+The application will validate your GPU configuration for each component and prevent incompatible model selections. You can use different GPU configurations for different components based on their computational needs.
 
 
 

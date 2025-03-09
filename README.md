@@ -8,7 +8,7 @@ This Retrieval Augmented Generation (RAG) application uses an agentic approach t
 
 <br>
 
-*Navigating the README:* [Application Overview](#the-agentic-rag-application) | [Get Started](#get-started) | [Deep Dive](#deep-dive:-self-hosted-endpoints) | [License](#license)
+*Navigating the README:* [Application Overview](#the-agentic-rag-application) | [Get Started](#get-started) | [Deep Dive](#deep-dive-on-self-hosted-endpoints) | [License](#license)
 
 <!-- Links -->
 *Other Resources:* [:arrow_down: Download AI Workbench](https://www.nvidia.com/en-us/deep-learning-ai/solutions/data-science/workbench/) | [:book: User Guide](https://docs.nvidia.com/ai-workbench/) |[:open_file_folder: Other Projects](https://docs.nvidia.com/ai-workbench/user-guide/latest/quickstart/example-projects.html) | [:rotating_light: User Forum](https://forums.developer.nvidia.com/t/support-workbench-example-project-agentic-rag/303414)
@@ -81,7 +81,7 @@ The quickest path is with the pre-configured build.nvidia.com endpoints.
 
 6. Start chatting.
 
-## Deep Dive: Self-Hosted Endpoints
+## Deep Dive on Self-Hosted Endpoints
 
 > **Note** This assumes you've done the **Get Started** steps.
 

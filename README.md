@@ -1,5 +1,5 @@
 # Overview: An Easy Button for Agentic RAG
-This Retrieval Augmented Generation (RAG) application uses an agentic approach to combine web search, hallucination controls and accuracy checks with RAG. It has a friendly Gradio front end, you can run it with AI Workbench without any complex setup.
+This Retrieval Augmented Generation (RAG) application uses an agentic approach to combine web search, hallucination controls and accuracy checks with RAG. It's easy to modify because its a simple Gradio app.
 
 > **Note**
 >This app runs in [NVIDIA AI Workbench](https://docs.nvidia.com/ai-workbench/user-guide/latest/overview/introduction.html). It's a free, lightweight developer platform that you can run on your own systems. It's an easy way to get up and running with complex AI applications and workloads in a short amount of time. 

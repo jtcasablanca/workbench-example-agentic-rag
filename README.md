@@ -17,6 +17,13 @@ This Retrieval Augmented Generation (RAG) application uses an agentic approach t
 ## The Agentic RAG Application
 #### Using the Application
 1. You embed your documents (pdfs or webpages) to the vector database. 
+
+<details>
+<summary>📝 Note About Internal Endpoints</summary>
+
+Some users (e.g., NVIDIA employees) may need to configure the `INTERNAL_API` environment variable to access internal endpoints. See the [Environment Variables documentation](https://docs.nvidia.com/ai-workbench/user-guide/latest/environment/variables.html) for setup instructions.
+</details>
+
 2. You configure each of the separate components for the pipeline. For each component you can:
    * Select from a drop down of endpoints or use a self-hosted endpoint.
    * Modify the prompt.
